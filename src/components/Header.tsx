@@ -55,6 +55,6 @@ const HeaderLeft = styled.div`
   gap: 30px;
 
   .header-logo {
-    width: 220px;
+    width: 250px;
   }
 `;
