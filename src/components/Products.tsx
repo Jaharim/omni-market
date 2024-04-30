@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getProductsInfo } from '../apis/api';
+import Pagination from './Pagination';
 
 interface productObject {
   product_id: number;
@@ -32,22 +33,14 @@ export default function Products() {
     queryFn: () => getProductsInfo(currentPage),
   });
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   console.log(data);
 
   return (
     <ProductsContainer>
-      <button
-        disabled={currentPage < 2}
-        onClick={() => setCurrentPage((prev) => (prev -= 1))}
-      >
-        page down
-      </button>
-      <button
-        disabled={currentPage > 8}
-        onClick={() => setCurrentPage((prev) => (prev += 1))}
-      >
-        page up
-      </button>
       <ProductsGrid>
         <ul>
           {console.log(data)}
@@ -69,12 +62,17 @@ export default function Products() {
             })}
         </ul>
       </ProductsGrid>
+      <Pagination onHandlePageChange={handlePageChange} />
     </ProductsContainer>
   );
 }
 
 const ProductsContainer = styled.div`
-  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  padding: 80px 0;
 `;
 
 const ProductsGrid = styled.div`
@@ -87,11 +85,10 @@ const ProductsGrid = styled.div`
 
   ul {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3개의 열(Column) */
-    grid-template-rows: repeat(5, 1fr); /* 5개의 행(Row) */
-    gap: 70px 78px; /* 아이템 간격 */
-    //width: 100%; /* 그리드 컨테이너 너비 */
-    height: 1000px; /* 그리드 컨테이너 높이 */
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 70px 78px;
+
     li {
       display: flex;
       flex-direction: column;
