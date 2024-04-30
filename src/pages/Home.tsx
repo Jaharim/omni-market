@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Products from '../components/Products';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <Header />
       </HeaderContainer>
       <Products />
+      <ScrollToTopButton />
     </>
   );
 }
