@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import shoppingCartIcon from '../assets/icon-shopping-cart.svg';
-import myPageIcon from '../assets/icon-user.svg';
+import userIcon from '../assets/icon-user.svg';
 
 export default function NavBar() {
   return (
@@ -14,8 +14,8 @@ export default function NavBar() {
       </Link>
       <Link to='/'>
         <NavBarContentsBox>
-          <img src={myPageIcon} alt='마이페이지' />
-          <span>마이페이지</span>
+          <img src={userIcon} alt='로그인' />
+          <span>로그인</span>
         </NavBarContentsBox>
       </Link>
     </NavBarContainer>
