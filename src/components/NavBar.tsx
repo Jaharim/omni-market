@@ -12,7 +12,7 @@ export default function NavBar() {
           <span>장바구니</span>
         </NavBarContentsBox>
       </Link>
-      <Link to='/'>
+      <Link to='login'>
         <NavBarContentsBox>
           <img src={userIcon} alt='로그인' />
           <span>로그인</span>
