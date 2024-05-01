@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getProductsInfo } from '../apis/api';
 import Pagination from './Pagination';
+import { useNavigate } from 'react-router-dom';
 
 interface productObject {
   product_id: number;
@@ -17,6 +18,7 @@ export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const queryClient = useQueryClient();
+  const navigation = useNavigate();
 
   useEffect(() => {
     if (currentPage <= 8) {
@@ -37,6 +39,10 @@ export default function Products() {
     setCurrentPage(page);
   };
 
+  const linkToDetailPage = (productId: number) => {
+    navigation(`products/${productId}`);
+  };
+
   console.log(data);
 
   return (
@@ -47,7 +53,10 @@ export default function Products() {
           {data &&
             data.results.map((el: productObject) => {
               return (
-                <li key={el.product_id}>
+                <li
+                  key={el.product_id}
+                  onClick={() => linkToDetailPage(el.product_id)}
+                >
                   <img src={el.image} alt={el.product_info} />
                   <div className='productInfoContainer'>
                     <span>{el.store_name}</span>
@@ -92,6 +101,7 @@ const ProductsGrid = styled.div`
     li {
       display: flex;
       flex-direction: column;
+      cursor: pointer;
       gap: 16px;
       width: 300px;
 

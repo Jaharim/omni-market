@@ -141,6 +141,9 @@ const ProductDetailContainer = styled.div`
   align-items: center;
   gap: 60px;
   padding: 80px 0;
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 0 auto;
 `;
 
 const ProductDetailWrapper = styled.div`
