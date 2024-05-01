@@ -25,7 +25,7 @@ const SearchForm = styled.form`
     padding-left: 20px;
     border-style: solid;
     border-radius: 50px;
-    border-color: #81dfa0;
+    border-color: #21bf48;
     outline: none;
     font-size: 16px;
 
