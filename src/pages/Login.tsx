@@ -2,13 +2,68 @@ import styled from 'styled-components';
 import marketLogo from '../assets/omni-header-h1.svg';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { login } from '../apis/api';
 
 interface ButtonProps {
   selected: string;
 }
 
+type FormData = {
+  id: string;
+  password: string;
+};
+
+const loginFormSchema = z
+  .object({
+    id: z
+      .string({ message: '아이디를 입력해주세요' })
+      .refine((value) => /^\S+$/.test(value), {
+        message: '아이디를 입력해주세요',
+      }),
+    password: z
+      .string({ message: '비밀번호를 입력해주세요' })
+      .refine((value) => /^\S+$/.test(value), {
+        message: '비밀번호를 입력해주세요',
+      }),
+  })
+  .required();
+
 export default function Login() {
-  const [loginType, setLoginType] = useState<string>('buyer');
+  const [loginType, setLoginType] = useState<'BUYER' | 'SELLER'>('BUYER');
+  const [loginError, setLoginError] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: zodResolver(loginFormSchema) });
+
+  const handleInputErrors = () => {
+    if (
+      (errors.id?.message && errors.password?.message) ||
+      errors.id?.message
+    ) {
+      return <span>{errors.id?.message}</span>;
+    } else if (!errors.id?.message && errors.password?.message) {
+      return <span>{errors.password?.message}</span>;
+    } else if (loginError.length > 0) {
+      return <span>{loginError}</span>;
+    }
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    const loginResult = await login(data.id, data.password, loginType);
+    if (loginResult.data) {
+      setLoginError('');
+      console.log(loginResult.data.id, loginResult.data.token);
+      //login 정보 Recoil 및 localStorage에 저장 후 홈페이지로 이동하게 설정
+    } else {
+      setLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
+    }
+  });
 
   return (
     <LoginPageContainer>
@@ -19,32 +74,33 @@ export default function Login() {
       <div>
         <LoginTypeButton
           type='button'
-          className={loginType === 'buyer' ? 'selected' : ''}
-          onClick={() => setLoginType('buyer')}
+          className={loginType === 'BUYER' ? 'selected' : ''}
+          onClick={() => setLoginType('BUYER')}
           selected={loginType}
         >
           구매회원 로그인
         </LoginTypeButton>
         <LoginTypeButton
           type='button'
-          className={loginType === 'seller' ? 'selected' : ''}
-          onClick={() => setLoginType('seller')}
+          className={loginType === 'SELLER' ? 'selected' : ''}
+          onClick={() => setLoginType('SELLER')}
           selected={loginType}
         >
           판매회원 로그인
         </LoginTypeButton>
       </div>
       <div className='space'></div>
-      <UserInfoInputForm>
+      <UserInfoInputForm onSubmit={onSubmit}>
         <div>
           <label htmlFor='userId'>아이디</label>
-          <input type='text' id='userId' />
+          <input type='text' id='userId' {...register('id')} />
         </div>
         <div>
           <label htmlFor='userPassword'>비밀번호</label>
-          <input type='password' id='userPassword' />
+          <input type='password' id='userPassword' {...register('password')} />
         </div>
-        <button type='button'>로그인</button>
+        {handleInputErrors()}
+        <button type='submit'>로그인</button>
       </UserInfoInputForm>
       <span>회원가입</span>
     </LoginPageContainer>
@@ -167,6 +223,14 @@ const UserInfoInputForm = styled.form`
       outline: none;
       border-bottom: 3px solid #21bf48;
     }
+  }
+
+  span {
+    display: inline-block;
+    width: 480px;
+    //align-self: flex-start;
+    color: red;
+    margin-bottom: 26px;
   }
 
   button {
