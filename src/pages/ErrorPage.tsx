@@ -1,4 +1,3 @@
-import React from 'react';
 import errorIcon from '../assets/icon-404.svg';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
