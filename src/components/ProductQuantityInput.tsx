@@ -30,10 +30,10 @@ export default function ProductQuantityInput({
     const target = e.target as HTMLInputElement;
     const value = parseInt(target.value);
     if (value > 0 && max >= value) {
-      console.log(value);
+      //console.log(value);
       setInputState(value);
     } else {
-      console.log(1);
+      //console.log(1);
       setInputState(1);
     }
   };

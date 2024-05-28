@@ -50,26 +50,26 @@ export default function NavBar() {
     setLoginState(false);
     localStorage.removeItem('authInfo');
     queryClient.removeQueries({ queryKey: ['loginInfo'] });
-    return navigation('/');
+    return navigation('/omni-market');
   };
 
   const handleNavLink = (buttonName: string) => {
     if (buttonName === 'cart') {
-      navigation('/cart');
+      navigation('/omni-market/cart');
     } else if (buttonName === 'user') {
       if (loginState) {
-        setUsermenuState((prev) => !prev);
-        //handleUserLogout();
+        if (loginType === 'BUYER') setUsermenuState((prev) => !prev);
+        else if (loginType === 'SELLER') handleUserLogout();
       } else {
-        navigation('/login');
+        navigation('/omni-market/login');
       }
     } else if (buttonName === 'sellerCenter') {
-      navigation('/sellerCenter');
+      navigation('/omni-market/sellerCenter');
     }
   };
 
   const linkToMyPage = () => {
-    navigation('/myPage');
+    navigation('/omni-market/myPage');
   };
   /* 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function NavBar() {
     }
   }, [getLoginInfo, queryClient]); */
 
-  console.log(loginType);
+  //console.log(loginType);
   return (
     <NavBarContainer>
       {loginType === 'BUYER' && loginState && (
@@ -91,7 +91,7 @@ export default function NavBar() {
         >
           <img
             src={
-              location.pathname === '/cart'
+              location.pathname === '/omni-market/cart'
                 ? clickedShoppingCartIcon
                 : shoppingCartIcon
             }
@@ -107,19 +107,33 @@ export default function NavBar() {
       >
         <img
           src={
-            usermenuState || location.pathname === 'myPage'
+            usermenuState || location.pathname === '/omni-market/myPage'
               ? clickedUserIcon
               : userIcon
           }
           alt='유저아이콘'
         />
-        {loginState ? <span>사용자메뉴</span> : <span>로그인</span>}
-        {usermenuState && (
+        {loginState ? (
+          loginType === 'BUYER' ? (
+            <span>사용자메뉴</span>
+          ) : (
+            <span>로그아웃</span>
+          )
+        ) : (
+          <span>로그인</span>
+        )}
+        {usermenuState && loginType === 'BUYER' && (
           <UsermenuModal $backgroundImage={usermenuModal}>
             <span onClick={linkToMyPage}>마이페이지</span>
             <span onClick={handleUserLogout}>로그아웃</span>
           </UsermenuModal>
         )}
+        {/* 
+        {usermenuState && loginType === 'SELLER' && (
+          <UsermenuModal $backgroundImage={usermenuModal}>
+            <span onClick={handleUserLogout}>로그아웃</span>
+          </UsermenuModal>
+        )} */}
       </NavBarContentsBox>
       {loginType === 'SELLER' && loginState && (
         <SellerCenterButton onClick={() => handleNavLink('sellerCenter')}>
@@ -214,6 +228,8 @@ const NavBarContentsBox = styled.div<{ $select: string; $clicked: boolean }>`
 
   span.cartSpan {
     color: ${(props) =>
-      props.$select === ('/cart' || '/myPage') ? '#21bf48' : ''};
+      props.$select === ('/omni-market/cart' || '/omni-market/myPage')
+        ? '#21bf48'
+        : ''};
   }
 `;

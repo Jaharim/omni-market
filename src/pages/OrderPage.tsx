@@ -21,16 +21,16 @@ export default function OrderPage() {
     (prev: number, curr: number[]) => prev + curr[2],
     0
   );
-  console.log(selectedProductArray);
-  console.log(orderKind);
-  console.log(quantity);
+  //console.log(selectedProductArray);
+  //console.log(orderKind);
+  //console.log(quantity);
   /* 
   orderKind의 종류
   1. `direct_order`
   2. `cart_order`
   3. `cart_one_order` */
 
-  console.log(allCost);
+  //console.log(allCost);
 
   return (
     <>

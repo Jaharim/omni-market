@@ -19,52 +19,52 @@ const AppRouter = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '',
+        path: 'omni-market/',
         element: <Home />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/products/:productId/',
+        path: 'omni-market/products/:productId/',
         element: <ProductDetail />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/login',
+        path: 'omni-market/login',
         element: <Login />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/cart',
+        path: 'omni-market/cart',
         element: <Cart />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/signup',
+        path: 'omni-market/signup',
         element: <SignUp />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/myPage',
+        path: 'omni-market/myPage',
         element: <MyPage />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/sellerCenter',
+        path: 'omni-market/sellerCenter',
         element: <SellerCenter />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/sellerCenter/editProduct',
+        path: 'omni-market/sellerCenter/editProduct',
         element: <SellerEditProduct />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/products',
+        path: 'omni-market/products',
         element: <SearchedProducts />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/order',
+        path: 'omni-market/order',
         element: <OrderPage />,
         errorElement: <ErrorPage />,
       },

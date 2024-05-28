@@ -93,7 +93,7 @@ export default function SellerEditProduct() {
     loginInfo = queryClient.getQueryData(['loginInfo']);
     const token = loginInfo!.token;
     if (loginInfo) {
-      //console.log(loginInfo);
+      ////console.log(loginInfo);
       setToken(token);
     }
     if (!editedProductId) {
@@ -107,7 +107,7 @@ export default function SellerEditProduct() {
     queryFn: () => getProductDetail(editedProductId),
   });
 
-  console.log(data);
+  //console.log(data);
 
   useEffect(() => {
     if (data) {
@@ -187,20 +187,20 @@ export default function SellerEditProduct() {
   const addProductPostMutation = useMutation({
     mutationFn: () => addSellingProduct(token, state),
     onSuccess: () => {
-      navigation('/sellerCenter');
+      navigation('/omni-market/sellerCenter');
     },
     onError: (err) => {
-      console.log(err);
+      //console.log(err);
     },
   });
 
   const editProductMutation = useMutation({
     mutationFn: () => editSellingProduct(token, editedProductId!, state),
     onSuccess: () => {
-      navigation('/sellerCenter');
+      navigation('/omni-market/sellerCenter');
     },
     onError: (err) => {
-      console.log(err);
+      //console.log(err);
     },
   });
 
@@ -212,22 +212,22 @@ export default function SellerEditProduct() {
       return;
     }
     if (errorMessage !== '') {
-      console.log('크악2');
+      //console.log('크악2');
       return;
     }
-    console.log('submit success!');
+    //console.log('submit success!');
 
     if (!data) {
-      console.log('new product added!');
+      //console.log('new product added!');
       addProductPostMutation.mutate();
     } else if (data) {
-      console.log('exist product edited!');
+      //console.log('exist product edited!');
       editProductMutation.mutate();
     }
   };
 
-  console.log(state);
-  //console.log(errors);
+  //console.log(state);
+  ////console.log(errors);
 
   return (
     <>
@@ -385,7 +385,7 @@ export default function SellerEditProduct() {
                 </span>
                 <button
                   type='button'
-                  onClick={() => navigation('/sellerCenter')}
+                  onClick={() => navigation('/omni-market/sellerCenter')}
                 >
                   취소
                 </button>

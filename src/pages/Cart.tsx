@@ -66,7 +66,7 @@ const reducer = (state: State, action: Action): State => {
     case 'DELETE': {
       const newState = new Map(state);
       newState.delete(action.value.productId);
-      //console.log(newState);
+      ////console.log(newState);
       return newState;
     }
     case 'DELETE_ALL': {
@@ -128,7 +128,7 @@ export default function Cart() {
 
   useEffect(() => {
     if (token) {
-      //console.log(token);
+      ////console.log(token);
       refetch();
     }
   }, [token]);
@@ -140,7 +140,7 @@ export default function Cart() {
     refetchOnWindowFocus: false,
   });
 
-  //console.log(error);
+  ////console.log(error);
 
   const handleInsertAllOrderList = () => {
     setIsSelected((prev) => !prev);
@@ -212,21 +212,23 @@ export default function Cart() {
     }
   }, [mapState, token, data]);
 
-  //console.log(data);
-  //console.log(mapState);
-  console.log(selectedProductId);
-  //console.log(token);
+  ////console.log(data);
+  ////console.log(mapState);
+  //console.log(selectedProductId);
+  ////console.log(token);
   /* 
   const getOrderListMutation = useMutation({
     mutationFn: () => getOrderList(token),
     onSuccess: (data) => {
-      console.log(data);
+      //console.log(data);
     },
   }); */
 
   const handleTestOrder = () => {
     //getOrderListMutation.mutate();
-    navigation('/order', { state: ['cart_order', selectedProductId] });
+    navigation('/omni-market/order', {
+      state: ['cart_order', selectedProductId],
+    });
   };
 
   return (

@@ -212,12 +212,12 @@ export default function SignUp() {
     onSuccess: (data) => {
       setUserNameAuthResultMessage('사용 가능한 아이디입니다.');
       setUserNameAuthState(true);
-      console.log(data.Success);
+      //console.log(data.Success);
     },
     onError: (error: AxiosError<AuthUserNameErrorData>) => {
       setUserNameAuthResultMessage(error.response!.data.FAIL_Message);
       setUserNameAuthState(false);
-      console.log(error.response!.data.FAIL_Message);
+      //console.log(error.response!.data.FAIL_Message);
     },
   });
 
@@ -226,25 +226,25 @@ export default function SignUp() {
     onSuccess: (data) => {
       setSellerIdAuthResultMessage('사용 가능한 사업자 등록번호입니다.');
       setSellerIdAuthState(true);
-      console.log(data.Success);
+      //console.log(data.Success);
     },
     onError: (error: AxiosError<AuthUserNameErrorData>) => {
       setSellerIdAuthResultMessage(error.response!.data.FAIL_Message);
       setSellerIdAuthState(false);
-      console.log(error.response!.data.FAIL_Message);
+      //console.log(error.response!.data.FAIL_Message);
     },
   });
 
   const postSignUpRequest = useMutation({
     mutationFn: () => signUp(inputInfo, signUpType),
     onSuccess: (data) => {
-      console.log(data);
-      console.log(data.Success);
+      //console.log(data);
+      //console.log(data.Success);
       setSignUpSuccessModalOpen(true);
     },
     onError: (error: AxiosError<AuthUserNameErrorData>) => {
-      console.log(error.response!.data.FAIL_Message);
-      console.log(error.response!.data);
+      //console.log(error.response!.data.FAIL_Message);
+      //console.log(error.response!.data);
       setSignUpFailModalMessage(Object.values(error.response!.data)[0]);
       setSignUpFailModalOpen(true);
     },
@@ -279,14 +279,14 @@ export default function SignUp() {
   const handleSuccessModalClose = (e: SyntheticEvent) => {
     if (e.target !== e.currentTarget) return;
     else {
-      navigation('/login');
+      navigation('/omni-market/login');
     }
   };
 
   const handleFailModalClose = (e: SyntheticEvent) => {
     if (e.target !== e.currentTarget) return;
     else {
-      console.log('signUp failed!');
+      //console.log('signUp failed!');
       setSignUpFailModalOpen(false);
     }
   };
@@ -295,7 +295,7 @@ export default function SignUp() {
     <>
       <SignUpPageContainer>
         <h1 className='a11y-hidden'>회원가입페이지</h1>
-        <Link to='/'>
+        <Link to='/omni-market/'>
           <img src={marketLogo} alt='옴니마켓로고' />
         </Link>
         <div>

@@ -38,7 +38,7 @@ export default function MyPageDashboard() {
   });
 
   const handleOrderListPage = (pageNum: number) => {
-    console.log(pageNum);
+    ////console.log(pageNum);
     setOrderListPage(pageNum);
   };
 

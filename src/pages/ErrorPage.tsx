@@ -16,7 +16,9 @@ export default function ErrorPage() {
             <br />웹 주소가 올바른지 확인해 주세요.
           </p>
           <div>
-            <button onClick={() => navigation('/')}>메인으로</button>
+            <button onClick={() => navigation('/omni-market/')}>
+              메인으로
+            </button>
             <button onClick={() => navigation(-1)}>이전 페이지</button>
           </div>
         </div>

@@ -66,9 +66,9 @@ export default function SellingProductCard({
       setDeleteCompleteModalOpen(true);
     },
     onError: (err) => {
-      console.log(productInfo);
-      console.log(productInfo.product_id);
-      console.log(err);
+      //console.log(productInfo);
+      //console.log(productInfo.product_id);
+      //console.log(err);
     },
   });
 
@@ -94,10 +94,10 @@ export default function SellingProductCard({
   };
 
   const linkToProductDetailPage = () => {
-    navigation(`/products/${productInfo.product_id}`);
+    navigation(`/omni-market/products/${productInfo.product_id}`);
   };
 
-  //console.log(data);
+  ////console.log(data);
 
   return (
     <>

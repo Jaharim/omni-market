@@ -55,7 +55,7 @@ export default function MyOrderList({ orderListPageNum }: OrderListProps) {
     queryFn: () => getOrderList(token, orderListPageNum),
   });
 
-  console.log(data);
+  ////console.log(data);
 
   return (
     <>

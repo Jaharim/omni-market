@@ -84,7 +84,7 @@ export default function Login() {
         token,
         loginType,
       });
-      navigation('/');
+      navigation('/omni-market/');
     },
     onError: () => setError(true),
   });
@@ -106,7 +106,7 @@ export default function Login() {
     /* const loginResult = await login(data.id, data.password, loginType);
     if (loginResult.data) {
       setLoginError('');
-      //console.log(loginResult.data.id, loginResult.data.token, loginType);
+      ////console.log(loginResult.data.id, loginResult.data.token, loginType);
       //login 정보 Recoil 및 localStorage에 저장 후 홈페이지로 이동하게 설정
       setLoginInfo({
         id: loginResult.data.id,
@@ -159,7 +159,7 @@ export default function Login() {
         )}
         <button type='submit'>로그인</button>
       </UserInfoInputForm>
-      <span onClick={() => navigation('/signup')}>회원가입</span>
+      <span onClick={() => navigation('/omni-market/signup')}>회원가입</span>
     </LoginPageContainer>
   );
 }

@@ -11,16 +11,16 @@ export default function SearchBar() {
   /* const searchProductsMutation = useMutation({
     mutationFn: () => searchProducts(searchedInput),
     onSuccess: (data) => {
-      console.log(data);
+      //console.log(data);
     },
     onError: (err) => {
-      console.log(err);
+      //console.log(err);
     },
   }); */
 
   const onSubmit = () => {
-    console.log(searchedInput);
-    navigation(`/products/?search=${searchedInput}`);
+    //console.log(searchedInput);
+    navigation(`/omni-market/products/?search=${searchedInput}`);
     //searchProductsMutation.mutate();
   };
 

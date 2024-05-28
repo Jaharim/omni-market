@@ -17,7 +17,7 @@ export default function SearchResults() {
   const queryParams = new URLSearchParams(location.search);
   const searchedInput = queryParams.get('search');
 
-  console.log(location, queryParams, searchedInput);
+  //console.log(location, queryParams, searchedInput);
   /* `"${searchedInput}" 총 ${data.count}건의 검색 결과가 있습니다.` */
   const navigation = useNavigate();
 
@@ -30,7 +30,7 @@ export default function SearchResults() {
     navigation(`${productId}`);
   };
 
-  console.log(data);
+  //console.log(data);
 
   return (
     <SearchResultsContainer>

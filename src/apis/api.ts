@@ -51,7 +51,7 @@ export const getProductsInfo = async (page: number) => {
 };
 
 export const searchProducts = async (input: string | null | undefined) => {
-  console.log(input);
+  ////console.log(input);
   if (input) {
     const { data } = await axios.get(`${API_URL}/products/?search=${input}`);
     return data;
@@ -77,22 +77,22 @@ export const login = async (loginInfo: {
       login_type: loginInfo.loginType,
     })
     .catch(function (error) {
-      //console.log(error.config);
+      ////console.log(error.config);
       if (error.response) {
         // 요청이 전송되었고, 서버는 2xx 외의 상태 코드로 응답했습니다.
-        //console.log(error.response.data);
+        ////console.log(error.response.data);
         return error.response.data;
-        //console.log(error.response.status);
-        //console.log(error.response.headers);
+        ////console.log(error.response.status);
+        ////console.log(error.response.headers);
       } else if (error.request) {
         // 요청이 전송되었지만, 응답이 수신되지 않았습니다.
         // 'error.request'는 브라우저에서 XMLHtpRequest 인스턴스이고,
         // node.js에서는 http.ClientRequest 인스턴스입니다.
-        //console.log(error.request);
+        ////console.log(error.request);
         return error.request;
       } else {
         // 오류가 발생한 요청을 설정하는 동안 문제가 발생했습니다.
-        //console.log('Error', error.message);
+        ////console.log('Error', error.message);
         return error.message;
       }
     });
@@ -103,8 +103,8 @@ export const login = async (loginInfo: {
     loginType: loginInfo.loginType,
   };
 
-  //console.log(loginInfo);
-  //console.log(data);
+  ////console.log(loginInfo);
+  ////console.log(data);
   localStorage.setItem('authInfo', JSON.stringify(authInfo));
 
   return data;
@@ -127,7 +127,7 @@ export const addProductToCart = async (
   quantity: number,
   check: boolean
 ) => {
-  console.log(token, productId, quantity, check);
+  ////console.log(token, productId, quantity, check);
   const { data } = await axios.post(
     `${API_URL}/cart/`,
     {
@@ -163,7 +163,7 @@ export const changeCartItemQuantity = async (
   quantity: number,
   isActive: boolean
 ) => {
-  //console.log({ cartItemId, productId, quantity, isActive });
+  ////console.log({ cartItemId, productId, quantity, isActive });
   if (token) {
     const { data } = await axios.put(
       `${API_URL}/cart/${cartItemId}/`,
@@ -193,7 +193,7 @@ export const editSellingProduct = async (
   state: EditProductState
 ) => {
   //if(typeof state.image)
-  //console.log(typeof state.image === 'string');
+  ////console.log(typeof state.image === 'string');
   let imageProperty;
   if (typeof state.image === 'string') {
     const { data } = await axios.put(
@@ -363,7 +363,7 @@ export const authUserName = async (userName: string) => {
       username: userName,
     }
   );
-  //console.log(userName);
+  ////console.log(userName);
   return data;
 };
 
@@ -374,7 +374,7 @@ export const authSellerId = async (sellerId: string | undefined) => {
       company_registration_number: sellerId,
     }
   );
-  //console.log(userName);
+  ////console.log(userName);
   return data;
 };
 

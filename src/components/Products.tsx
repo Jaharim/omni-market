@@ -40,7 +40,7 @@ export default function Products() {
   };
 
   const linkToDetailPage = (productId: number) => {
-    navigation(`products/${productId}`);
+    navigation(`/omni-market/products/${productId}`);
   };
 
   return (

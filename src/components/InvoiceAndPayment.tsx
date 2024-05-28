@@ -109,7 +109,7 @@ export default function InvoiceAndPayment({
     loginInfo = queryClient.getQueryData(['loginInfo']);
     const token = loginInfo!.token;
     if (loginInfo) {
-      //console.log(loginInfo);
+      ////console.log(loginInfo);
       setToken(token);
     }
   }, [queryClient]);
@@ -155,10 +155,10 @@ export default function InvoiceAndPayment({
   const orderPostMutation = useMutation({
     mutationFn: () => postOrder(token, orderInfo),
     onSuccess: (data) => {
-      console.log(data);
+      ////console.log(data);
     },
     onError: (err) => {
-      console.log(err);
+      ////console.log(err);
     },
   });
 

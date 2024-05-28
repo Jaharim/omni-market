@@ -70,10 +70,10 @@ export default function CartItem({
         isSelected
       ),
     onSuccess: () => {
-      //console.log(data);
+      ////console.log(data);
     },
     onError: () => {
-      //console.log(err);
+      ////console.log(err);
     },
   });
 
@@ -91,7 +91,7 @@ export default function CartItem({
           value.cost,
           value.shippingFee, */
     setIsSelected(true);
-    navigation('/order', {
+    navigation('/omni-market/order', {
       state: [
         'cart_one_order',
         [
@@ -111,7 +111,7 @@ export default function CartItem({
   };
 
   const linkToProductDetailPage = (productId: number) => {
-    navigation(`/products/${productId}`);
+    navigation(`/omni-market/products/${productId}`);
   };
 
   const handleDeleteCartItem = () => {
@@ -150,8 +150,8 @@ export default function CartItem({
       const cost = quantity * data.price;
       const shippingFee = data.shipping_fee;
       onSelected({ isSelected, productId, cost, shippingFee });
-      //console.log({ isSelected, productId, cost, shippingFee });
-      //console.log(data.product_id, 'onSelected');
+      ////console.log({ isSelected, productId, cost, shippingFee });
+      ////console.log(data.product_id, 'onSelected');
     }
   }, [isSelected, quantity, data, allInserted, location, token]);
 
@@ -169,7 +169,7 @@ export default function CartItem({
     loginInfo = queryClient.getQueryData(['loginInfo']);
     const token = loginInfo!.token;
     if (loginInfo) {
-      //console.log(loginInfo);
+      ////console.log(loginInfo);
       setToken(token);
     }
   }, [queryClient]);
@@ -194,13 +194,13 @@ export default function CartItem({
     } else {
       const newAllInserted = allInserted === 'true' ? true : false;
       setIsSelected(newAllInserted);
-      //console.log('allInserted: ', newAllInserted);
+      ////console.log('allInserted: ', newAllInserted);
     }
   }, [allInserted]);
 
-  /*   console.log('isSelected: ' + isSelected);
-  console.log('isActice: ' + isActive);
-  console.log(data); */
+  /*   //console.log('isSelected: ' + isSelected);
+  //console.log('isActice: ' + isActive);
+  //console.log(data); */
 
   return (
     <>

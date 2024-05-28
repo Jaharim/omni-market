@@ -111,18 +111,18 @@ export default function ProductDetail() {
     onError: (err: AxiosError<addProductToCartErrorData>) => {
       setAddProductToCartFailModalOpen(true);
       setAddProductToCartFailModalMessage(err.response!.data.FAIL_message);
-      //console.log(err);
-      //console.log(err.response!.data.FAIL_message);
+      ////console.log(err);
+      ////console.log(err.response!.data.FAIL_message);
     },
   });
 
-  //console.log(data, token);
+  ////console.log(data, token);
 
   const handleAddProductToCart = () => {
     addProductToCartMutation.mutate();
   };
   const handleDirectOrderProduct = () => {
-    navigation('/order', {
+    navigation('/omni-market/order', {
       state: [
         'direct_order',
         [
@@ -253,7 +253,10 @@ export default function ProductDetail() {
                     >
                       확인
                     </button>
-                    <button type='button' onClick={() => navigation('/cart')}>
+                    <button
+                      type='button'
+                      onClick={() => navigation('/omni-market/cart')}
+                    >
                       장바구니로 이동
                     </button>
                   </div>

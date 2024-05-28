@@ -20,15 +20,15 @@ export default function OrderItem({
     queryKey: ['orderItem', productId],
     queryFn: () => getProductDetail(productId),
   });
-  console.log(productId);
-  console.log(data);
-  console.log(allCost);
-  console.log(error);
+  //console.log(productId);
+  //console.log(data);
+  //console.log(allCost);
+  //console.log(error);
 
   const navigation = useNavigate();
 
   const linkToProductDetailPage = (productId: number) => {
-    navigation(`/products/${productId}`);
+    navigation(`/omni-market/products/${productId}`);
   };
 
   return (
