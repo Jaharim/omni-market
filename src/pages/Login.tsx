@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import marketLogo from '../assets/omni-header-h1.svg';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { login } from '../apis/api';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 interface ButtonProps {
   selected: string;
@@ -15,6 +16,8 @@ type FormData = {
   id: string;
   password: string;
 };
+
+type LoginType = 'BUYER' | 'SELLER';
 
 const loginFormSchema = z
   .object({
@@ -32,8 +35,15 @@ const loginFormSchema = z
   .required();
 
 export default function Login() {
-  const [loginType, setLoginType] = useState<'BUYER' | 'SELLER'>('BUYER');
-  const [loginError, setLoginError] = useState('');
+  const [loginType, setLoginType] = useState<LoginType>('BUYER');
+  const [inputInfo, setInputInfo] = useState({
+    id: '',
+    password: '',
+    loginType: '',
+  });
+  const navigation = useNavigate();
+  const [error, setError] = useState(false);
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -49,20 +59,63 @@ export default function Login() {
       return <span>{errors.id?.message}</span>;
     } else if (!errors.id?.message && errors.password?.message) {
       return <span>{errors.password?.message}</span>;
-    } else if (loginError.length > 0) {
-      return <span>{loginError}</span>;
     }
   };
 
-  const onSubmit = handleSubmit(async (data) => {
-    const loginResult = await login(data.id, data.password, loginType);
+  /* const { isSuccess, error } = useQuery({
+    enabled: !!inputInfo.id && !!inputInfo.password,
+    queryKey: ['userLogin', inputInfo],
+    queryFn: () => login(inputInfo),
+    retry: 0,
+  }); */
+
+  /* const { mutate, isSuccess, error } = useMutation(
+    //mutationKey: ['userLogin', inputInfo],
+    { mutationFn: () => login(inputInfo) }
+    //retry: 0,
+  ); */
+
+  const loginMutation = useMutation({
+    mutationFn: () => login(inputInfo),
+    onSuccess: (data) => {
+      const { id, token } = data;
+      queryClient.setQueryData(['loginInfo'], {
+        id,
+        token,
+        loginType,
+      });
+      navigation('/');
+    },
+    onError: () => setError(true),
+  });
+
+  /*   useEffect(() => {
+    if (isSuccess) {
+      navigation('/');
+    }
+  }, [isSuccess, navigation]); */
+
+  const onSubmit = handleSubmit(async (inputData) => {
+    setInputInfo({
+      id: inputData.id,
+      password: inputData.password,
+      loginType: loginType,
+    });
+    loginMutation.mutate();
+
+    /* const loginResult = await login(data.id, data.password, loginType);
     if (loginResult.data) {
       setLoginError('');
-      console.log(loginResult.data.id, loginResult.data.token);
+      //console.log(loginResult.data.id, loginResult.data.token, loginType);
       //login 정보 Recoil 및 localStorage에 저장 후 홈페이지로 이동하게 설정
+      setLoginInfo({
+        id: loginResult.data.id,
+        token: loginResult.data.token,
+        loginType: loginType,
+      });
     } else {
       setLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
-    }
+    } */
   });
 
   return (
@@ -99,13 +152,18 @@ export default function Login() {
           <label htmlFor='userPassword'>비밀번호</label>
           <input type='password' id='userPassword' {...register('password')} />
         </div>
-        {handleInputErrors()}
+        {error ? (
+          <span>아이디 또는 비밀번호가 일치하지 않습니다.</span>
+        ) : (
+          handleInputErrors()
+        )}
         <button type='submit'>로그인</button>
       </UserInfoInputForm>
-      <span>회원가입</span>
+      <span onClick={() => navigation('/signup')}>회원가입</span>
     </LoginPageContainer>
   );
 }
+
 const LoginTypeButton = styled.button<ButtonProps>`
   width: 50%;
   height: 60px;
@@ -170,6 +228,7 @@ const LoginPageContainer = styled.div`
   & > span {
     font-size: 14px;
     color: #333;
+    cursor: pointer;
   }
 `;
 
