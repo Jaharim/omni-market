@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import headerLogo from '../assets/omni-header-h1.svg';
 import styled from 'styled-components';

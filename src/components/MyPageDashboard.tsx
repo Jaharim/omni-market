@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import plusProductIcon from '../assets/icon-plus.svg';
-import SellerSellingProducts from './SellerSellingProducts';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getOrderList, getSellingProducts } from '../apis/api';
-import { useNavigate } from 'react-router-dom';
+import { getOrderList } from '../apis/api';
 import MyOrderList from './MyOrderList';
 import Pagination from './Pagination';
+import { useEffect, useState } from 'react';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;
 
 export default function MyPageDashboard() {
-  const navigation = useNavigate();
   const [token, setToken] = useState('');
   const [orderListPage, setOrderListPage] = useState(1);
 
@@ -117,42 +113,6 @@ const DashboardContents = styled.div`
 
     & > div:nth-child(2) {
       align-self: center;
-    }
-  }
-`;
-
-const DashboardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  & > div {
-    span {
-      font-size: 32px;
-      font-weight: bold;
-    }
-
-    span:nth-child(2) {
-      margin-left: 16px;
-      color: #21bf48;
-    }
-  }
-
-  & > button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 168px;
-    height: 54px;
-    border: none;
-    border-radius: 10px;
-    background-color: #21bf48;
-    cursor: pointer;
-    gap: 8px;
-
-    span {
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
     }
   }
 `;

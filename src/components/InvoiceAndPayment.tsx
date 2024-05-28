@@ -77,7 +77,6 @@ export default function InvoiceAndPayment({
     register,
     handleSubmit,
     setValue,
-    watch,
     trigger,
     formState: { errors, isValid },
   } = useForm({

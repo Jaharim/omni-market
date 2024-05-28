@@ -1,11 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getProductDetail } from '../apis/api';
-import closeIcon from '../assets/icon-delete.svg';
 import OrderItem from './OrderItem';
-
-type LoginInfo = { id: string; token: string; loginType: string } | undefined;
+import { useState } from 'react';
 
 interface OrdertInfo {
   address: string;
@@ -144,7 +141,7 @@ export default function MyOrderCard({ orderInfo }: OrderCardProps) {
               <span>배송비</span>
               <span>주문금액</span>
             </div>
-            {orderInfo.order_items.map((el, index) => {
+            {orderInfo.order_items.map((_, index) => {
               return (
                 <OrderItem
                   productId={orderInfo.order_items[index]}

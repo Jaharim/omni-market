@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import plusProductIcon from '../assets/icon-plus.svg';
 import SellerSellingProducts from './SellerSellingProducts';
