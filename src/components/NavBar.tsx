@@ -1,26 +1,189 @@
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import shoppingCartIcon from '../assets/icon-shopping-cart.svg';
+import clickedShoppingCartIcon from '../assets/icon-clicked-shopping-cart.svg';
+import shoppingBagIcon from '../assets/icon-shopping-bag.svg';
+import usermenuModal from '../assets/usermenu_modal_icon.svg';
 import userIcon from '../assets/icon-user.svg';
+import clickedUserIcon from '../assets/icon-clicked-user.svg';
+import { useQueryClient } from '@tanstack/react-query';
+import { /* useCallback */ useEffect, useState } from 'react';
+
+type LoginInfo = { id: string; token: string; loginType: string } | undefined;
 
 export default function NavBar() {
+  const queryClient = useQueryClient();
+  const navigation = useNavigate();
+  const location = useLocation();
+  const [loginState, setLoginState] = useState(false);
+  const [loginType, setLoginType] = useState('');
+  const [usermenuState, setUsermenuState] = useState(false);
+  //const [token, setToken] = useState('');
+
+  useEffect(() => {
+    let loginInfo: LoginInfo = queryClient.getQueryData(['loginInfo']);
+    const authInfoString = localStorage.getItem('authInfo');
+    if (!loginInfo && authInfoString) {
+      const { id, token, loginType } = JSON.parse(authInfoString!);
+      queryClient.setQueryData(['loginInfo'], {
+        id,
+        token,
+        loginType,
+      });
+    }
+    if (loginInfo) {
+      loginInfo = queryClient.getQueryData(['loginInfo']);
+      setLoginType(loginInfo!.loginType);
+      setLoginState(true);
+    }
+    /*  const token = loginInfo!.token;
+    if (loginInfo) {
+      setToken(token);
+    } */
+  }, [queryClient]);
+  /* 
+  const getLoginInfo: () => LoginInfo = useCallback(() => {
+    return queryClient.getQueryData(['loginInfo']);
+  }, [queryClient]);
+ */
+  const handleUserLogout = async () => {
+    setLoginState(false);
+    localStorage.removeItem('authInfo');
+    queryClient.removeQueries({ queryKey: ['loginInfo'] });
+    return navigation('/');
+  };
+
+  const handleNavLink = (buttonName: string) => {
+    if (buttonName === 'cart') {
+      navigation('/cart');
+    } else if (buttonName === 'user') {
+      if (loginState) {
+        setUsermenuState((prev) => !prev);
+        //handleUserLogout();
+      } else {
+        navigation('/login');
+      }
+    } else if (buttonName === 'sellerCenter') {
+      navigation('/sellerCenter');
+    }
+  };
+
+  const linkToMyPage = () => {
+    navigation('/myPage');
+  };
+  /* 
+  useEffect(() => {
+    if (getLoginInfo()) {
+      setLoginState(true);
+      const loginInfo: LoginInfo = queryClient.getQueryData(['loginInfo']);
+      setLoginType(loginInfo!.loginType);
+    }
+  }, [getLoginInfo, queryClient]); */
+
+  console.log(loginType);
   return (
     <NavBarContainer>
-      <Link to='/'>
-        <NavBarContentsBox>
-          <img src={shoppingCartIcon} alt='장바구니' />
-          <span>장바구니</span>
+      {loginType === 'BUYER' && loginState && (
+        <NavBarContentsBox
+          onClick={() => handleNavLink('cart')}
+          $select={location.pathname}
+          $clicked={false}
+        >
+          <img
+            src={
+              location.pathname === '/cart'
+                ? clickedShoppingCartIcon
+                : shoppingCartIcon
+            }
+            alt='장바구니아이콘'
+          />
+          <span className='cartSpan'>장바구니</span>
         </NavBarContentsBox>
-      </Link>
-      <Link to='login'>
-        <NavBarContentsBox>
-          <img src={userIcon} alt='로그인' />
-          <span>로그인</span>
-        </NavBarContentsBox>
-      </Link>
+      )}
+      <NavBarContentsBox
+        $select={location.pathname}
+        $clicked={usermenuState}
+        onClick={() => handleNavLink('user')}
+      >
+        <img
+          src={
+            usermenuState || location.pathname === 'myPage'
+              ? clickedUserIcon
+              : userIcon
+          }
+          alt='유저아이콘'
+        />
+        {loginState ? <span>사용자메뉴</span> : <span>로그인</span>}
+        {usermenuState && (
+          <UsermenuModal $backgroundImage={usermenuModal}>
+            <span onClick={linkToMyPage}>마이페이지</span>
+            <span onClick={handleUserLogout}>로그아웃</span>
+          </UsermenuModal>
+        )}
+      </NavBarContentsBox>
+      {loginType === 'SELLER' && loginState && (
+        <SellerCenterButton onClick={() => handleNavLink('sellerCenter')}>
+          <img src={shoppingBagIcon} alt='쇼핑백아이콘' />
+          <span>판매자 센터</span>
+        </SellerCenterButton>
+      )}
     </NavBarContainer>
   );
 }
+
+const UsermenuModal = styled.div<{ $backgroundImage: string }>`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 130px;
+  height: 120px;
+  top: 115%;
+  gap: 8px;
+  padding: 20px 10px 10px;
+  background-image: ${(props) => `url(${props.$backgroundImage})`};
+  background-repeat: no-repeat;
+  & > span {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    color: #767676;
+    border: 1px solid #fff;
+  }
+  & > span:hover {
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+    color: black;
+  }
+  & > span:nth-child(1) {
+    //margin-top: 15px;
+  }
+`;
+
+const SellerCenterButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 168px;
+  height: 54px;
+  margin-left: 5px;
+  gap: 8px;
+  border: none;
+  border-radius: 10px;
+  background-color: #21bf48;
+  cursor: pointer;
+
+  & > span {
+    font-size: 16px;
+    color: white;
+  }
+`;
 
 const NavBarContainer = styled.div`
   display: flex;
@@ -32,18 +195,25 @@ const NavBarContainer = styled.div`
   }
 `;
 
-const NavBarContentsBox = styled.div`
+const NavBarContentsBox = styled.div<{ $select: string; $clicked: boolean }>`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
 
   img {
     width: 28px;
   }
 
-  span {
+  & > span {
     font-size: 14px;
-    color: #767676;
+    color: ${(props) => (props.$clicked ? '#21bf48' : '#767676')};
+  }
+
+  span.cartSpan {
+    color: ${(props) =>
+      props.$select === ('/cart' || '/myPage') ? '#21bf48' : ''};
   }
 `;
