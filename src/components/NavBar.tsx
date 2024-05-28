@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import shoppingCartIcon from '../assets/icon-shopping-cart.svg';
 import clickedShoppingCartIcon from '../assets/icon-clicked-shopping-cart.svg';
 import shoppingBagIcon from '../assets/icon-shopping-bag.svg';
-import usermenuModal from '../assets/usermenu_modal_icon.svg';
+import usermenuModal from '../assets/usermenu-modal-icon.svg';
 import userIcon from '../assets/icon-user.svg';
 import clickedUserIcon from '../assets/icon-clicked-user.svg';
 import { useQueryClient } from '@tanstack/react-query';
