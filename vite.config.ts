@@ -9,5 +9,6 @@ export default defineConfig(({ mode }) => {
       'process.env.API_URL': JSON.stringify(env.API_URL),
     },
     plugins: [react()],
+    base: '/omni-market/', // 이 부분을 수정
   };
 });
