@@ -3,13 +3,36 @@ import Header from '../components/Header';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import minusIcon from '../assets/icon-minus-line.svg';
 import plusIcon from '../assets/icon-plus-line.svg';
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getProductDetail } from '../apis/api';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { addProductToCart, getProductDetail } from '../apis/api';
+import { useEffect, useState, SyntheticEvent } from 'react';
+import { AxiosError } from 'axios';
+
+type LoginInfo = { id: string; token: string; loginType: string } | undefined;
+
+interface addProductToCartErrorData {
+  FAIL_message: string;
+}
 
 export default function ProductDetail() {
   const { productId } = useParams();
+  const queryClient = useQueryClient();
+  const navigation = useNavigate();
+  const [loginType, setLoginType] = useState<string>();
+
+  const [token, setToken] = useState('');
+
+  const [
+    addProductToCartSuccessModalOpen,
+    setAddProductToCartSuccessModalOpen,
+  ] = useState(false);
+  const [addProductToCartFailModalOpen, setAddProductToCartFailModalOpen] =
+    useState(false);
+  const [
+    addProductToCartFailModalMessage,
+    setAddProductToCartFailModalMessage,
+  ] = useState('');
 
   const { data } = useQuery({
     queryKey: ['productDetail', productId],
@@ -21,6 +44,28 @@ export default function ProductDetail() {
     const target = e.target as HTMLInputElement;
     target.blur();
   };
+
+  useEffect(() => {
+    let loginInfo: LoginInfo = queryClient.getQueryData(['loginInfo']);
+    const authInfoString = localStorage.getItem('authInfo');
+    if (!loginInfo && authInfoString) {
+      const { id, token, loginType } = JSON.parse(authInfoString!);
+      queryClient.setQueryData(['loginInfo'], {
+        id,
+        token,
+        loginType,
+      });
+    }
+    if (loginInfo) {
+      loginInfo = queryClient.getQueryData(['loginInfo']);
+      const token = loginInfo!.token;
+      queryClient.invalidateQueries({
+        queryKey: ['cartData'],
+      });
+      setToken(token);
+      setLoginType(loginInfo!.loginType);
+    }
+  }, [queryClient]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -43,7 +88,55 @@ export default function ProductDetail() {
     }
   };
 
-  console.log(data);
+  const handleAddProductToCartSuccessModalClose = (e: SyntheticEvent) => {
+    if (e.target !== e.currentTarget) return;
+    else {
+      setAddProductToCartSuccessModalOpen(false);
+    }
+  };
+
+  const handleAddProductToCartFailModalClose = (e: SyntheticEvent) => {
+    if (e.target !== e.currentTarget) return;
+    else {
+      setAddProductToCartFailModalOpen(false);
+    }
+  };
+
+  const addProductToCartMutation = useMutation({
+    mutationFn: () =>
+      addProductToCart(token, data.product_id, inputState, true),
+    onSuccess: () => {
+      setAddProductToCartSuccessModalOpen(true);
+    },
+    onError: (err: AxiosError<addProductToCartErrorData>) => {
+      setAddProductToCartFailModalOpen(true);
+      setAddProductToCartFailModalMessage(err.response!.data.FAIL_message);
+      //console.log(err);
+      //console.log(err.response!.data.FAIL_message);
+    },
+  });
+
+  //console.log(data, token);
+
+  const handleAddProductToCart = () => {
+    addProductToCartMutation.mutate();
+  };
+  const handleDirectOrderProduct = () => {
+    navigation('/order', {
+      state: [
+        'direct_order',
+        [
+          [
+            data.product_id,
+            inputState * parseInt(data.price),
+            parseInt(data.shipping_fee),
+          ],
+        ],
+        inputState,
+      ],
+    });
+  };
+  //const handleFailModalClose = () => {};
 
   return (
     <>
@@ -77,10 +170,14 @@ export default function ProductDetail() {
                   {data.shipping_fee ? <span>원</span> : ''}
                 </span>
                 <span className='horizonLine'></span>
-                <ProductQuantityContainer>
+                <ProductQuantityContainer
+                  $styleProps={loginType === 'SELLER' || !token}
+                >
                   <button
                     type='button'
-                    disabled={inputState <= 1}
+                    disabled={
+                      inputState <= 1 || loginType === 'SELLER' || !token
+                    }
                     onClick={() => handleInputButton('minus')}
                   >
                     <img src={minusIcon} alt='상품수량 마이너스 아이콘' />
@@ -90,10 +187,15 @@ export default function ProductDetail() {
                     value={inputState}
                     onChange={(e) => handleInputChange(e, data.stock)}
                     onWheel={handleInputScroll}
+                    disabled={loginType === 'SELLER' || !token}
                   />
                   <button
                     type='button'
-                    disabled={inputState >= data.stock}
+                    disabled={
+                      inputState >= data.stock ||
+                      loginType === 'SELLER' ||
+                      !token
+                    }
                     onClick={() => handleInputButton('plus')}
                   >
                     <img src={plusIcon} alt='상품수량 플러스 아이콘' />
@@ -118,18 +220,111 @@ export default function ProductDetail() {
                     </span>
                   </div>
                 </ProductFeeInfoContainer>
-                <OrderButtonsContainer>
-                  <button type='button'>바로 구매</button>
-                  <button type='button'>장바구니</button>
+                <OrderButtonsContainer
+                  $styleProps={loginType === 'SELLER' || !token}
+                >
+                  <button
+                    type='button'
+                    disabled={loginType === 'SELLER' || !token}
+                    onClick={handleDirectOrderProduct}
+                  >
+                    바로 구매
+                  </button>
+                  <button
+                    type='button'
+                    disabled={loginType === 'SELLER' || !token}
+                    onClick={handleAddProductToCart}
+                  >
+                    장바구니
+                  </button>
                 </OrderButtonsContainer>
               </div>
             </ProductCoreInfo>
+            {addProductToCartSuccessModalOpen && (
+              <SuccessModalBackDrop
+                onClick={handleAddProductToCartSuccessModalClose}
+              >
+                <div>
+                  <span>장바구니에 상품을 담았습니다.</span>
+                  <div>
+                    <button
+                      type='button'
+                      onClick={handleAddProductToCartSuccessModalClose}
+                    >
+                      확인
+                    </button>
+                    <button type='button' onClick={() => navigation('/cart')}>
+                      장바구니로 이동
+                    </button>
+                  </div>
+                </div>
+              </SuccessModalBackDrop>
+            )}
+            {addProductToCartFailModalOpen && (
+              <FailModalBackDrop onClick={handleAddProductToCartFailModalClose}>
+                <div>
+                  <span>{addProductToCartFailModalMessage}</span>
+                  <button
+                    type='button'
+                    onClick={handleAddProductToCartFailModalClose}
+                  >
+                    확인
+                  </button>
+                </div>
+              </FailModalBackDrop>
+            )}
           </ProductDetailWrapper>
         </ProductDetailContainer>
       )}
     </>
   );
 }
+
+const FailModalBackDrop = styled.div`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 550px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 2000;
+    gap: 40px;
+
+    & > span {
+      font-size: 20px;
+      font-weight: bold;
+      //margin-bottom: 35px;
+    }
+
+    & > button {
+      width: 120px;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #767676;
+      cursor: pointer;
+    }
+  }
+`;
 
 const HeaderContainer = styled.div`
   box-shadow: 0px 0px 15px rgba(0 0 0 / 20%);
@@ -215,7 +410,7 @@ const ProductCoreInfo = styled.div`
   }
 `;
 
-const ProductQuantityContainer = styled.div`
+const ProductQuantityContainer = styled.div<{ $styleProps: boolean }>`
   display: flex;
   width: 150px;
   margin: 30px 0;
@@ -225,6 +420,7 @@ const ProductQuantityContainer = styled.div`
     height: 50px;
     border: 1px solid #c4c4c4;
     background-color: unset;
+    cursor: ${(props) => (props.$styleProps ? 'normal' : 'pointer')};
 
     &:nth-child(1) {
       border-radius: 5px 0 0 5px;
@@ -302,7 +498,7 @@ const ProductFeeInfoContainer = styled.div`
   }
 `;
 
-const OrderButtonsContainer = styled.div`
+const OrderButtonsContainer = styled.div<{ $styleProps: boolean }>`
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 14px;
@@ -314,13 +510,80 @@ const OrderButtonsContainer = styled.div`
     color: white;
     border-radius: 5px;
     border: none;
+    cursor: ${(props) => (props.$styleProps ? 'normal' : 'pointer')};
 
     &:nth-child(1) {
-      background-color: #21bf48;
+      background-color: ${(props) =>
+        props.$styleProps ? '#C4C4C4' : '#21bf48'};
     }
 
     &:nth-child(2) {
+      background-color: ${(props) =>
+        props.$styleProps ? '#C4C4C4' : '#767676'};
+    }
+  }
+`;
+
+const SuccessModalBackDrop = styled.div`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 2000;
+    gap: 40px;
+
+    & > span {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    & > div {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      gap: 10px;
+    }
+
+    & > div > button:nth-child(1) {
+      width: 80px;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
       background-color: #767676;
+      cursor: pointer;
+    }
+
+    & > div > button:nth-child(2) {
+      width: 150px;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #21bf48;
+      cursor: pointer;
     }
   }
 `;
