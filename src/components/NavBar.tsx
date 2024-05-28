@@ -81,6 +81,7 @@ export default function NavBar() {
   }, [getLoginInfo, queryClient]); */
 
   //console.log(loginType);
+
   return (
     <NavBarContainer>
       {loginType === 'BUYER' && loginState && (
@@ -149,15 +150,18 @@ const UsermenuModal = styled.div<{ $backgroundImage: string }>`
   position: absolute;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
   width: 130px;
   height: 120px;
   top: 115%;
   gap: 8px;
-  padding: 20px 10px 10px;
-  background-image: ${(props) => `url(${props.$backgroundImage})`};
-  background-repeat: no-repeat;
+  padding: 10px;
+  border: 1px solid #c4c4c4;
+  border-radius: 10px;
+  background-color: white;
+
   & > span {
     box-sizing: border-box;
     display: block;
