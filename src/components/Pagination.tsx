@@ -3,16 +3,19 @@ import styled from 'styled-components';
 
 type HandlePageChange = (pageNumber: number) => void;
 
+interface PaginationProps {
+  onHandlePageChange: HandlePageChange;
+  max: number;
+}
+
 export default function Pagination({
   onHandlePageChange,
-}: {
-  onHandlePageChange: HandlePageChange;
-}) {
+  max,
+}: PaginationProps) {
   const [page, setPage] = useState(1);
   const [pageArr, setPageArr] = useState<number[][]>([]);
   const [pageArrNum, setPageArrNum] = useState(0);
-
-  const maxPage = 9;
+  const maxPage = Math.ceil(max);
 
   useEffect(() => {
     const getPageArr = async () => {
@@ -27,13 +30,17 @@ export default function Pagination({
         }
       }
     };
-    console.log(pageArr.length, pageArr);
+
     if (pageArr.length === 0) {
       getPageArr();
     }
-  }, []);
+  }, [maxPage]);
 
   const handlePageChange = (page: number) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
     setPage(page);
     onHandlePageChange(page);
   };

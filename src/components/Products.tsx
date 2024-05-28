@@ -43,13 +43,10 @@ export default function Products() {
     navigation(`products/${productId}`);
   };
 
-  console.log(data);
-
   return (
     <ProductsContainer>
       <ProductsGrid>
         <ul>
-          {console.log(data)}
           {data &&
             data.results.map((el: productObject) => {
               return (
@@ -71,7 +68,7 @@ export default function Products() {
             })}
         </ul>
       </ProductsGrid>
-      <Pagination onHandlePageChange={handlePageChange} />
+      <Pagination onHandlePageChange={handlePageChange} max={9} />
     </ProductsContainer>
   );
 }
