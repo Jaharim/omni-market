@@ -1,10 +1,36 @@
 import styled from 'styled-components';
 import searchIcon from '../assets/search.svg';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchBar() {
+  const navigation = useNavigate();
+  const { register, handleSubmit, watch } = useForm();
+  const searchedInput = watch('searchedInput');
+
+  /* const searchProductsMutation = useMutation({
+    mutationFn: () => searchProducts(searchedInput),
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  }); */
+
+  const onSubmit = () => {
+    console.log(searchedInput);
+    navigation(`/products/?search=${searchedInput}`);
+    //searchProductsMutation.mutate();
+  };
+
   return (
-    <SearchForm>
-      <input type='text' placeholder='상품의 이름을 검색하세요' />
+    <SearchForm onSubmit={handleSubmit(onSubmit)}>
+      <input
+        type='text'
+        placeholder='상품의 이름을 검색하세요'
+        {...register('searchedInput')}
+      />
       <button type='button'>
         <img src={searchIcon} alt='상품검색버튼' />
       </button>
@@ -32,7 +58,7 @@ const SearchForm = styled.form`
     &:active,
     &:hover,
     &:focus {
-      border-color: #81dfa0;
+      border-color: #21bf48;
     }
   }
 
