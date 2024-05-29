@@ -44,7 +44,7 @@ export default function SellerCenterDashboard() {
         <DashboardHeader>
           <div>
             <span>대시보드</span>
-            <span>{data?.results[0].store_name}</span>
+            <span>{data && data?.results[0]?.store_name}</span>
           </div>
           <button onClick={() => navigation('editProduct')}>
             <img src={plusProductIcon} alt='상품업로드 아이콘' />
