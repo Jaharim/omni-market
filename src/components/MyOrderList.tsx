@@ -59,14 +59,14 @@ export default function MyOrderList({ orderListPageNum }: OrderListProps) {
 
   return (
     <>
-      <SellingProductsContainer>
-        <SellingProductsIndex>
+      <MyOrderListContainer>
+        <MyOrderListIndex>
           <span>주문정보</span>
           <span>배송상태</span>
           <span>결제금액</span>
           <span>주문일자</span>
-        </SellingProductsIndex>
-        <SellingProductsWrapper $productsCount={data?.count}>
+        </MyOrderListIndex>
+        <MyOrderListWrapper $productsCount={data?.count}>
           {data &&
             data.results.map((el: OrderInfo) => {
               return (
@@ -77,26 +77,26 @@ export default function MyOrderList({ orderListPageNum }: OrderListProps) {
                 />
               );
             })}
-        </SellingProductsWrapper>
-      </SellingProductsContainer>
+        </MyOrderListWrapper>
+      </MyOrderListContainer>
     </>
   );
 }
 
-const SellingProductsWrapper = styled.div<{ $productsCount: number }>`
+const MyOrderListWrapper = styled.div<{ $productsCount: number }>`
   height: ${(props) =>
     props.$productsCount >= 16 ? 15 * 200 : (props.$productsCount + 1) * 100}px;
   background-color: #f2f2f2;
 `;
 
-const SellingProductsContainer = styled.div`
+const MyOrderListContainer = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #c4c4c4;
   border-radius: 5px;
 `;
 
-const SellingProductsIndex = styled.div`
+const MyOrderListIndex = styled.div`
   display: flex;
   justify-content: space-evenly;
   height: 60px;
