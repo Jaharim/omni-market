@@ -50,7 +50,7 @@ export default function NavBar() {
     setLoginState(false);
     localStorage.removeItem('authInfo');
     queryClient.removeQueries({ queryKey: ['loginInfo'] });
-    return navigation('/omni-market');
+    return navigation('/omni-market/');
   };
 
   const handleNavLink = (buttonName: string) => {

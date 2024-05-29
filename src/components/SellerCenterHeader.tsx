@@ -8,7 +8,7 @@ export default function SellerCenterHeader() {
       <section className='header-wrapper'>
         <h1 className='a11y-hidden'>판매자센터 헤더</h1>
         <HeaderLeft>
-          <Link to='/omni-market'>
+          <Link to='/omni-market/'>
             <img className='header-logo' src={headerLogo} alt='헤더로고' />
           </Link>
           <Link to='/omni-market/sellerCenter'>

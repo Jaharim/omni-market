@@ -121,7 +121,7 @@ export default function Login() {
   return (
     <LoginPageContainer>
       <h1 className='a11y-hidden'>로그인페이지</h1>
-      <Link to='/'>
+      <Link to='/omni-market/'>
         <img src={marketLogo} alt='옴니마켓로고' />
       </Link>
       <div>
