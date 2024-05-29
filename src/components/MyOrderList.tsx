@@ -85,7 +85,7 @@ export default function MyOrderList({ orderListPageNum }: OrderListProps) {
 
 const MyOrderListWrapper = styled.div<{ $productsCount: number }>`
   height: ${(props) =>
-    props.$productsCount >= 16 ? 15 * 200 : (props.$productsCount + 1) * 100}px;
+    props.$productsCount >= 16 ? 15 * 200 : (props.$productsCount + 1) * 200}px;
   background-color: #f2f2f2;
 `;
 
