@@ -141,14 +141,16 @@ export default function MyOrderCard({ orderInfo }: OrderCardProps) {
               <span>배송비</span>
               <span>주문금액</span>
             </div>
-            {orderInfo.order_items.map((_, index) => {
-              return (
-                <OrderItem
-                  productId={orderInfo.order_items[index]}
-                  quantity={orderInfo.order_quantity[index]}
-                />
-              );
-            })}
+            <div>
+              {orderInfo.order_items.map((_, index) => {
+                return (
+                  <OrderItem
+                    productId={orderInfo.order_items[index]}
+                    quantity={orderInfo.order_quantity[index]}
+                  />
+                );
+              })}
+            </div>
             <div>
               <button onClick={() => setOrderDetailState(false)}>닫기</button>
             </div>
@@ -304,6 +306,11 @@ const DetailModalContainer = styled.div`
       display: inline-block;
       width: calc(50% / 3);
     }
+  }
+
+  & > div:nth-child(4) {
+    height: 350px;
+    overflow: auto;
   }
 
   & > div:nth-last-child(1) {
