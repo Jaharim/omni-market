@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postOrder } from '../apis/api';
+import successIcon from '../assets/icon-check-on.svg';
+import { useNavigate } from 'react-router-dom';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;
 
@@ -83,11 +85,14 @@ export default function InvoiceAndPayment({
     resolver: zodResolver(orderFormSchema),
   });
 
+  const navigation = useNavigate();
   const [token, setToken] = useState('');
   const [firstSubmitChecker, setFirstSubmitChecker] = useState(false);
   const [orderInfo, setOrderInfo] = useState(
     {} as CartOrderInfo | SingleOrderInfo
   );
+
+  const [orderCompleteModalState, setOrderCompleteModalState] = useState(false);
 
   const [dividedInputData, setDividedInputData] = useState({
     address: { part1: '', part2: '', part3: '' },
@@ -156,11 +161,17 @@ export default function InvoiceAndPayment({
     mutationFn: () => postOrder(token, orderInfo),
     onSuccess: (data) => {
       ////console.log(data);
+      setOrderCompleteModalState(true);
     },
     onError: (err) => {
       ////console.log(err);
     },
   });
+
+  const handleSuccessModalClose = () => {
+    setOrderCompleteModalState(false);
+    navigation('/omni-market/myPage');
+  };
 
   const onSubmit = handleSubmit(async (data) => {
     if (orderKind === 'cart_order') {
@@ -181,231 +192,294 @@ export default function InvoiceAndPayment({
   });
 
   return (
-    <InvoiceAndPaymentContainer>
-      <InvoiceAndPaymentWrapper onSubmit={onSubmit}>
-        <InvoiceContainer>
-          <span>배송정보</span>
-          <div>
-            <span>주문자 정보</span>
+    <>
+      <InvoiceAndPaymentContainer>
+        <InvoiceAndPaymentWrapper onSubmit={onSubmit}>
+          <InvoiceContainer>
+            <span>배송정보</span>
             <div>
-              <span>이름</span>
-              <input type='text' {...register('name')} />
-              {errors.name?.message && (
-                <span>{errors.name.message as string}</span>
-              )}
-            </div>
-            <div>
-              <span>휴대폰</span>
+              <span>주문자 정보</span>
               <div>
-                <input type='text' name='part1' value={'010'} disabled />
-                <span></span>
-                <input
-                  type='text'
-                  name='part2'
-                  value={dividedInputData.senderPhone.part2}
-                  maxLength={4}
-                  onChange={(e) => handleInputChange(e, 'senderPhone')}
-                />
-                <span></span>
-                <input
-                  type='text'
-                  name='part3'
-                  value={dividedInputData.senderPhone.part3}
-                  maxLength={4}
-                  onChange={(e) => handleInputChange(e, 'senderPhone')}
-                />
-                <input type='hidden' {...register('phoneNumber')} />
+                <span>이름</span>
+                <input type='text' {...register('name')} />
+                {errors.name?.message && (
+                  <ErrorSpan>{errors.name.message as string}</ErrorSpan>
+                )}
               </div>
-              {errors.phoneNumber?.message && (
-                <span>{errors.phoneNumber.message as string}</span>
-              )}
-            </div>
-            <div>
-              <span>이메일</span>
-              <input
-                type='text'
-                placeholder='example@example.com 양식을 지켜주세요.'
-                {...register('email')}
-              />
-              {errors.email?.message && (
-                <span>{errors.email.message as string}</span>
-              )}
-            </div>
-          </div>
-          <div>
-            <span>배송지 정보</span>
-            <div>
-              <span>수령인</span>
-              <input type='text' {...register('receiver')} />
-              {errors.receiver?.message && (
-                <span>{errors.receiver.message as string}</span>
-              )}
-            </div>
-            <div>
-              <span>휴대폰</span>
               <div>
-                <input type='text' name='part1' value={'010'} disabled />
-                <span></span>
-                <input
-                  type='text'
-                  name='part2'
-                  value={dividedInputData.receiverPhone.part2}
-                  maxLength={4}
-                  onChange={(e) => handleInputChange(e, 'receiverPhone')}
-                />
-                <span></span>
-                <input
-                  type='text'
-                  name='part3'
-                  value={dividedInputData.receiverPhone.part3}
-                  maxLength={4}
-                  onChange={(e) => handleInputChange(e, 'receiverPhone')}
-                />
-                <input type='hidden' {...register('receiverPhoneNumber')} />
-              </div>
-              {errors.receiverPhoneNumber?.message && (
-                <span>{errors.receiverPhoneNumber.message as string}</span>
-              )}
-            </div>
-            <div>
-              <span>배송주소</span>
-              <div>
+                <span>휴대폰</span>
                 <div>
+                  <input type='text' name='part1' value={'010'} disabled />
+                  <span></span>
                   <input
                     type='text'
-                    name='part1'
-                    value={dividedInputData.address.part1}
+                    name='part2'
+                    value={dividedInputData.senderPhone.part2}
+                    maxLength={4}
+                    onChange={(e) => handleInputChange(e, 'senderPhone')}
+                  />
+                  <span></span>
+                  <input
+                    type='text'
+                    name='part3'
+                    value={dividedInputData.senderPhone.part3}
+                    maxLength={4}
+                    onChange={(e) => handleInputChange(e, 'senderPhone')}
+                  />
+                  <input type='hidden' {...register('phoneNumber')} />
+                </div>
+                {errors.phoneNumber?.message && (
+                  <ErrorSpan>{errors.phoneNumber.message as string}</ErrorSpan>
+                )}
+              </div>
+              <div>
+                <span>이메일</span>
+                <input
+                  type='text'
+                  placeholder='example@example.com 양식을 지켜주세요.'
+                  {...register('email')}
+                />
+                {errors.email?.message && (
+                  <ErrorSpan>{errors.email.message as string}</ErrorSpan>
+                )}
+              </div>
+            </div>
+            <div>
+              <span>배송지 정보</span>
+              <div>
+                <span>수령인</span>
+                <input type='text' {...register('receiver')} />
+                {errors.receiver?.message && (
+                  <ErrorSpan>{errors.receiver.message as string}</ErrorSpan>
+                )}
+              </div>
+              <div>
+                <span>휴대폰</span>
+                <div>
+                  <input type='text' name='part1' value={'010'} disabled />
+                  <span></span>
+                  <input
+                    type='text'
+                    name='part2'
+                    value={dividedInputData.receiverPhone.part2}
+                    maxLength={4}
+                    onChange={(e) => handleInputChange(e, 'receiverPhone')}
+                  />
+                  <span></span>
+                  <input
+                    type='text'
+                    name='part3'
+                    value={dividedInputData.receiverPhone.part3}
+                    maxLength={4}
+                    onChange={(e) => handleInputChange(e, 'receiverPhone')}
+                  />
+                  <input type='hidden' {...register('receiverPhoneNumber')} />
+                </div>
+                {errors.receiverPhoneNumber?.message && (
+                  <ErrorSpan>
+                    {errors.receiverPhoneNumber.message as string}
+                  </ErrorSpan>
+                )}
+              </div>
+              <div>
+                <span>배송주소</span>
+                <div>
+                  <div>
+                    <input
+                      type='text'
+                      name='part1'
+                      value={dividedInputData.address.part1}
+                      onChange={(e) => handleInputChange(e, 'address')}
+                    />
+                    <button type='button'>우편번호 조회</button>
+                    {errors.address?.message && (
+                      <ErrorSpan>{errors.address.message as string}</ErrorSpan>
+                    )}
+                  </div>
+                  <input
+                    type='text'
+                    name='part2'
+                    value={dividedInputData.address.part2}
                     onChange={(e) => handleInputChange(e, 'address')}
                   />
-                  <button type='button'>우편번호 조회</button>
-                  {errors.address?.message && (
-                    <span>{errors.address.message as string}</span>
-                  )}
+                  <input
+                    type='text'
+                    name='part3'
+                    value={dividedInputData.address.part3}
+                    onChange={(e) => handleInputChange(e, 'address')}
+                  />
+                  <input type='hidden' {...register('address')} />
                 </div>
+              </div>
+              <div>
+                <span>배송 메시지</span>
                 <input
                   type='text'
-                  name='part2'
-                  value={dividedInputData.address.part2}
-                  onChange={(e) => handleInputChange(e, 'address')}
+                  {...register('message')}
+                  placeholder='없을 경우 "없음"을 입력해주세요'
                 />
-                <input
-                  type='text'
-                  name='part3'
-                  value={dividedInputData.address.part3}
-                  onChange={(e) => handleInputChange(e, 'address')}
-                />
-                <input type='hidden' {...register('address')} />
+                {errors.message?.message && (
+                  <ErrorSpan>{errors.message.message as string}</ErrorSpan>
+                )}
               </div>
             </div>
+          </InvoiceContainer>
+          <PaymentContainer>
             <div>
-              <span>배송 메시지</span>
-              <input
-                type='text'
-                {...register('message')}
-                placeholder='없을 경우 "없음"을 입력해주세요'
-              />
-              {errors.message?.message && (
-                <span>{errors.message.message as string}</span>
+              <span>결제 수단</span>
+              <div>
+                <input
+                  type='radio'
+                  id='card'
+                  value='CARD'
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor='card'>신용/체크카드</label>
+                <input
+                  type='radio'
+                  id='deposit'
+                  value='DEPOSIT'
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor='deposit'>무통장 입금</label>
+                <input
+                  type='radio'
+                  id='phonePayment'
+                  value='PHONE_PAYMENT'
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor='phonePayment'>휴대폰 결제</label>
+                <input
+                  type='radio'
+                  id='naverpay'
+                  value='NAVERPAY'
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor='naverpay'>네이버페이</label>
+                <input
+                  type='radio'
+                  id='kakaopay'
+                  value='KAKAOPAY'
+                  {...register('paymentMethod')}
+                />
+                <label htmlFor='kakaopay'>카카오페이</label>
+              </div>
+              {errors.paymentMethod?.message && (
+                <ErrorSpan>{errors.paymentMethod.message as string}</ErrorSpan>
               )}
             </div>
-          </div>
-        </InvoiceContainer>
-        <PaymentContainer>
-          <div>
-            <span>결제 수단</span>
             <div>
-              <input
-                type='radio'
-                id='card'
-                value='CARD'
-                {...register('paymentMethod')}
-              />
-              <label htmlFor='card'>신용/체크카드</label>
-              <input
-                type='radio'
-                id='deposit'
-                value='DEPOSIT'
-                {...register('paymentMethod')}
-              />
-              <label htmlFor='deposit'>무통장 입금</label>
-              <input
-                type='radio'
-                id='phonePayment'
-                value='PHONE_PAYMENT'
-                {...register('paymentMethod')}
-              />
-              <label htmlFor='phonePayment'>휴대폰 결제</label>
-              <input
-                type='radio'
-                id='naverpay'
-                value='NAVERPAY'
-                {...register('paymentMethod')}
-              />
-              <label htmlFor='naverpay'>네이버페이</label>
-              <input
-                type='radio'
-                id='kakaopay'
-                value='KAKAOPAY'
-                {...register('paymentMethod')}
-              />
-              <label htmlFor='kakaopay'>카카오페이</label>
-            </div>
-            {errors.paymentMethod?.message && (
-              <span>{errors.paymentMethod.message as string}</span>
-            )}
-          </div>
-          <div>
-            <span>최종결제 정보</span>
-            <div>
+              <span>최종결제 정보</span>
               <div>
                 <div>
-                  <span>- 상품금액</span>
-                  <span>
-                    <strong>{sumPrice.toLocaleString()}</strong>원
-                  </span>
+                  <div>
+                    <span>- 상품금액</span>
+                    <span>
+                      <strong>{sumPrice.toLocaleString()}</strong>원
+                    </span>
+                  </div>
+                  <div>
+                    <span>- 할인금액</span>
+                    <span>
+                      <strong>0</strong>원
+                    </span>
+                  </div>
+                  <div>
+                    <span>- 배송비</span>
+                    <span>
+                      <strong>{sumShippingFee.toLocaleString()}</strong>원
+                    </span>
+                  </div>
+                  <span></span>
+                  <div>
+                    <span>- 결제금액</span>
+                    <span>{(sumPrice + sumShippingFee).toLocaleString()}</span>
+                  </div>
                 </div>
                 <div>
-                  <span>- 할인금액</span>
-                  <span>
-                    <strong>0</strong>원
-                  </span>
+                  <div>
+                    <input type='checkbox' {...register('agreement')} />
+                    <label htmlFor='agreement'>
+                      주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
+                    </label>
+                  </div>
+                  <SubmitButton
+                    type='submit'
+                    $validProps={isValid}
+                    /* disabled={!isValid} */
+                    onClick={() => setFirstSubmitChecker(true)}
+                  >
+                    결제하기
+                  </SubmitButton>
                 </div>
-                <div>
-                  <span>- 배송비</span>
-                  <span>
-                    <strong>{sumShippingFee.toLocaleString()}</strong>원
-                  </span>
-                </div>
-                <span></span>
-                <div>
-                  <span>- 결제금액</span>
-                  <span>{(sumPrice + sumShippingFee).toLocaleString()}</span>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <input type='checkbox' {...register('agreement')} />
-                  <label htmlFor='agreement'>
-                    주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
-                  </label>
-                </div>
-                <SubmitButton
-                  type='submit'
-                  $validProps={isValid}
-                  /* disabled={!isValid} */
-                  onClick={() => setFirstSubmitChecker(true)}
-                >
-                  결제하기
-                </SubmitButton>
               </div>
             </div>
+          </PaymentContainer>
+        </InvoiceAndPaymentWrapper>
+      </InvoiceAndPaymentContainer>
+      {orderCompleteModalState && (
+        <SuccessModalBackDrop onClick={handleSuccessModalClose}>
+          <div>
+            <img src={successIcon} alt='회원가입완료' />
+            <span>주문 및 결제가 완료되었습니다.</span>
+            <button type='button' onClick={handleSuccessModalClose}>
+              주문목록으로 이동
+            </button>
           </div>
-        </PaymentContainer>
-      </InvoiceAndPaymentWrapper>
-    </InvoiceAndPaymentContainer>
+        </SuccessModalBackDrop>
+      )}
+    </>
   );
 }
+const SuccessModalBackDrop = styled.div`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 350px;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 2000;
+
+    & > img {
+      top: 0;
+      width: 70px;
+      height: 50%;
+      pointer-events: auto;
+    }
+    & > span {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 55px;
+    }
+
+    & > button {
+      width: 250px;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #21bf48;
+      cursor: pointer;
+    }
+  }
+`;
 const SubmitButton = styled.button<{ $validProps: boolean }>`
   width: 220px;
   height: 68px;
@@ -444,6 +518,11 @@ const PaymentContainer = styled.div`
         margin-right: 20px;
         font-size: 16px;
       }
+    }
+
+    & > span:nth-last-child(1) {
+      display: inline-block;
+      margin-top: 10px;
     }
   }
 
@@ -539,6 +618,11 @@ const PaymentContainer = styled.div`
       }
     }
   }
+`;
+
+const ErrorSpan = styled.span`
+  margin-left: 10px;
+  color: #eb5757;
 `;
 
 const InvoiceContainer = styled.div`
@@ -677,6 +761,7 @@ const InvoiceContainer = styled.div`
         & > div:nth-child(1) {
           display: flex;
           flex-direction: row;
+          align-items: center;
           gap: 10px;
 
           input {
@@ -692,6 +777,10 @@ const InvoiceContainer = styled.div`
             border-radius: 5px;
             font-size: 16px;
             color: #fff;
+          }
+
+          span {
+            margin-left: 0px;
           }
         }
 
