@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import marketLogo from '../assets/omni-header-h1.svg';
+import marketLogo from '../../assets/omni-header-h1.svg';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { login } from '../apis/api';
+import { login } from '../../apis/api';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 interface ButtonProps {

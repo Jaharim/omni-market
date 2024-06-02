@@ -1,15 +1,15 @@
 import styled from 'styled-components';
-import Header from '../components/Header';
-import ScrollToTopButton from '../components/ScrollToTopButton';
-import SearchResults from '../components/SearchResults';
+import Header from '../../components/Header';
+import Products from '../Home/Products';
+import ScrollToTopButton from '../../components/ScrollToTopButton';
 
-export default function SearchedProducts() {
+export default function Home() {
   return (
     <>
       <HeaderContainer>
         <Header />
       </HeaderContainer>
-      <SearchResults />
+      <Products />
       <ScrollToTopButton />
     </>
   );

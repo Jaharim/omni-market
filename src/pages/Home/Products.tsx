@@ -1,8 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getProductsInfo } from '../apis/api';
-import Pagination from './Pagination';
+import { getProductsInfo } from '../../apis/api';
+import Pagination from '../../components/Pagination';
 import { useNavigate } from 'react-router-dom';
 
 interface productObject {

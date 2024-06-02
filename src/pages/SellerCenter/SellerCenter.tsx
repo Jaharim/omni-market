@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import SellerCenterHeader from '../components/SellerCenterHeader';
-import SellerCenterDashboard from '../components/SellerCenterDashboard';
+import SellerCenterHeader from '../SellerCenter/SellerCenterHeader';
+import SellerCenterDashboard from '../SellerCenter/SellerCenterDashboard';
 
 export default function SellerCenter() {
   return (

@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useReducer, useEffect, useState, SyntheticEvent } from 'react';
-import { deleteAllCartItem, getCartData } from '../apis/api';
+import { deleteAllCartItem, getCartData } from '../../apis/api';
 import styled from 'styled-components';
-import Header from '../components/Header';
-import CartItem from '../components/CartItem';
-import minusIcon from '../assets/icon-minus-line.svg';
-import plusIcon from '../assets/icon-plus-line.svg';
-import deleteIcon from '../assets/icon-delete.svg';
+import Header from '../../components/Header';
+import CartItem from '../Cart/CartItem';
+import minusIcon from '../../assets/icon-minus-line.svg';
+import plusIcon from '../../assets/icon-plus-line.svg';
+import deleteIcon from '../../assets/icon-delete.svg';
 import { useNavigate } from 'react-router-dom';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;

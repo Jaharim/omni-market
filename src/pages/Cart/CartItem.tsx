@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import deleteIcon from '../assets/icon-delete.svg';
+import deleteIcon from '../../assets/icon-delete.svg';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   changeCartItemQuantity,
   deleteCartItem,
   getProductDetail,
-} from '../apis/api';
-import ProductQuantityInput from './ProductQuantityInput';
+} from '../../apis/api';
+import ProductQuantityInput from '../../components/ProductQuantityInput';
 import { useCallback, useEffect, useState, SyntheticEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 

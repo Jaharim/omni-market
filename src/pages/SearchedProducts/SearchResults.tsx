@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { searchProducts } from '../apis/api';
+import { searchProducts } from '../../apis/api';
 
 interface SearchResultsObject {
   product_id: number;

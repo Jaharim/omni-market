@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postOrder } from '../apis/api';
-import successIcon from '../assets/icon-check-on.svg';
+import { postOrder } from '../../apis/api';
+import successIcon from '../../assets/icon-check-on.svg';
 import { useNavigate } from 'react-router-dom';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;

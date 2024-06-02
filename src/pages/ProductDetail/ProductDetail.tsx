@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import Header from '../components/Header';
-import ScrollToTopButton from '../components/ScrollToTopButton';
-import minusIcon from '../assets/icon-minus-line.svg';
-import plusIcon from '../assets/icon-plus-line.svg';
+import Header from '../../components/Header';
+import ScrollToTopButton from '../../components/ScrollToTopButton';
+import minusIcon from '../../assets/icon-minus-line.svg';
+import plusIcon from '../../assets/icon-plus-line.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { addProductToCart, getProductDetail } from '../apis/api';
+import { addProductToCart, getProductDetail } from '../../apis/api';
 import { useEffect, useState, SyntheticEvent } from 'react';
 import { AxiosError } from 'axios';
 

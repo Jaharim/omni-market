@@ -1,7 +1,7 @@
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import styled from 'styled-components';
-import OrderItem from '../components/OrderItem';
-import InvoiceAndPayment from '../components/InvoiceAndPayment';
+import OrderItem from '../../components/OrderItem';
+import InvoiceAndPayment from '../OrderPage/InvoiceAndPayment';
 import { useLocation } from 'react-router-dom';
 
 export default function OrderPage() {

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import marketLogo from '../assets/omni-header-h1.svg';
-import passwordCheckIcon from '../assets/icon-check-on.svg';
-import passwordCheckOffIcon from '../assets/icon-check-off.svg';
-import signUpFailModalIcon from '../assets/icon-signup-fail.svg';
+import marketLogo from '../../assets/omni-header-h1.svg';
+import passwordCheckIcon from '../../assets/icon-check-on.svg';
+import passwordCheckOffIcon from '../../assets/icon-check-off.svg';
+import signUpFailModalIcon from '../../assets/icon-signup-fail.svg';
 
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { signUp, authUserName, authSellerId } from '../apis/api';
+import { signUp, authUserName, authSellerId } from '../../apis/api';
 import { AxiosError } from 'axios';
 
 interface ButtonProps {

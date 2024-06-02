@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getSellingProducts } from '../apis/api';
-import SellingProductCard from './SellingProductCard';
+import { getSellingProducts } from '../../apis/api';
+import SellingProductCard from '../SellerCenter/SellingProductCard';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;
 

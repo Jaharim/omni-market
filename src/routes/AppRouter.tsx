@@ -1,16 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import Home from '../pages/Home';
-import ProductDetail from '../pages/ProductDetail';
-import Login from '../pages/Login';
-import Cart from '../pages/Cart';
-import SignUp from '../pages/SignUp';
-import SearchedProducts from '../pages/SearchedProducts';
-import SellerCenter from '../pages/SellerCenter';
-import SellerEditProduct from '../pages/SellerEditProduct';
-import OrderPage from '../pages/OrderPage';
-import MyPage from '../pages/MyPage';
-import ErrorPage from '../pages/ErrorPage';
+import Home from '../pages/Home/Home';
+import ProductDetail from '../pages/ProductDetail/ProductDetail';
+import Login from '../pages/Auth/Login';
+import Cart from '../pages/Cart/Cart';
+import SignUp from '../pages/Auth/SignUp';
+import SearchedProducts from '../pages/SearchedProducts/SearchedProducts';
+import SellerCenter from '../pages/SellerCenter/SellerCenter';
+import SellerEditProduct from '../pages/SellerCenter/SellerEditProduct';
+import OrderPage from '../pages/OrderPage/OrderPage';
+import MyPage from '../pages/MyPage/MyPage';
+import ErrorPage from '../pages/Error/ErrorPage';
 
 const AppRouter = createBrowserRouter([
   {

@@ -1,7 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteSellingProduct } from '../apis/api';
+import { deleteSellingProduct } from '../../apis/api';
 import { useNavigate } from 'react-router-dom';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;

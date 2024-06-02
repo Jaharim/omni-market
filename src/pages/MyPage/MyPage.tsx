@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import MyPageHeader from '../components/MyPageHeader';
-import MyPageDashboard from '../components/MyPageDashboard';
-import ScrollToTopButton from '../components/ScrollToTopButton';
+import MyPageHeader from './MyPageHeader';
+import MyPageDashboard from './MyPageDashboard';
+import ScrollToTopButton from '../../components/ScrollToTopButton';
 
 export default function MyPage() {
   return (

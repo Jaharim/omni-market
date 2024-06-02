@@ -7,15 +7,15 @@ import React, {
   useEffect,
 } from 'react';
 import styled from 'styled-components';
-import SellerCenterHeader from '../components/SellerCenterHeader';
-import defaultImageIcon from '../assets/icon-img.svg';
+import SellerCenterHeader from '../SellerCenter/SellerCenterHeader';
+import defaultImageIcon from '../../assets/icon-img.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addSellingProduct,
   editSellingProduct,
   getProductDetail,
-} from '../apis/api';
+} from '../../apis/api';
 
 type LoginInfo = { id: string; token: string; loginType: string } | undefined;
 

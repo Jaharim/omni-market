@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { getProductDetail } from '../apis/api';
-import OrderItem from './OrderItem';
+import { getProductDetail } from '../../apis/api';
+import OrderItem from '../../components/OrderItem';
 import { useState } from 'react';
 
 interface OrdertInfo {
