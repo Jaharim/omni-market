@@ -201,6 +201,11 @@ PW: 1q2w3e4r!
     |-|-|
     |![장바구니 전체 주문하기를 눌렀을 때](https://github.com/Jaharim/omni-market/assets/83650872/e005d3ce-473d-42b9-8206-ea17e010ca96)|![바로구매 버튼을 눌렀을 때](https://github.com/Jaharim/omni-market/assets/83650872/a88873d4-460c-497c-b1cd-d1f5f578c903)|
 
+    <br />
+
+    #### 장바구니 삼품을 삭제, 수량 변경 및 선택 시 결제 금액 상세 변화
+    https://github.com/Jaharim/omni-market/assets/83650872/2fc6059e-aec6-4195-a5f7-7a3b6b3998b9
+    
 <br />
 
 - 주문/결제 페이지
