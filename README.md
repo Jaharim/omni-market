@@ -276,6 +276,10 @@ PW: 1q2w3e4r!
     |-|-|
     |![상품 등록 초기 화면](https://github.com/Jaharim/omni-market/assets/83650872/ba6411ee-24de-498f-9cac-4b8d2bb48b52)|![상품 정보 입력](https://github.com/Jaharim/omni-market/assets/83650872/33833d7d-8a83-4f67-b5c9-26e9d4798612)|
 
+    #### 상품 등록 영상
+    https://github.com/Jaharim/omni-market/assets/83650872/f43f5286-a89c-485f-915a-dd07697e11d8
+    
+
   <br />
   
   - 상품 수정
@@ -284,6 +288,9 @@ PW: 1q2w3e4r!
     |-|-|-|-|
     |![수정 전](https://github.com/Jaharim/omni-market/assets/83650872/f020e285-707e-4cec-a7b0-80b7a4bb17c5)|![초기 화면](https://github.com/Jaharim/omni-market/assets/83650872/97832234-09e8-4901-abd3-a258db525c82)|![상품 정보 수정](https://github.com/Jaharim/omni-market/assets/83650872/8e2c4698-5d0e-47fa-9210-a37ef2379e97)|![수정 후](https://github.com/Jaharim/omni-market/assets/83650872/7177b757-2add-4687-85f3-4d13559f06a4)|
 
+    #### 상품 수정 영상
+    https://github.com/Jaharim/omni-market/assets/83650872/ca287cc7-5086-44bd-a514-a26d487e0838
+    
   <br />
 
   - 상품 삭제
@@ -292,6 +299,10 @@ PW: 1q2w3e4r!
     |-|-|-|-|
     |![삭제 전](https://github.com/Jaharim/omni-market/assets/83650872/e2a4914c-b5d7-43c0-bc0a-941046a46d80)|![삭제 확인](https://github.com/Jaharim/omni-market/assets/83650872/95a5b1c7-5310-41e3-a970-c827286ed0f2)|![삭제 완료](https://github.com/Jaharim/omni-market/assets/83650872/0d95479e-8b37-412e-a96b-a8a9c73797ad)|![삭제 후](https://github.com/Jaharim/omni-market/assets/83650872/6fefe229-5bf9-4f3a-810a-bc7c45b91697)|
     
+    #### 상품 삭제 영상
+    https://github.com/Jaharim/omni-market/assets/83650872/56ccf90d-9aae-4646-84e6-4ad33adca9db
+    
+
 <br />
 
 <!-- Top Button -->
