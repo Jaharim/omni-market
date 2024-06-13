@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getProductDetail } from '../../apis/api';
 import OrderItem from '../../components/OrderItem';
 import { useState } from 'react';
+import { randomUUID } from 'crypto';
 
 interface OrdertInfo {
   address: string;
@@ -145,6 +146,7 @@ export default function MyOrderCard({ orderInfo }: OrderCardProps) {
               {orderInfo.order_items.map((_, index) => {
                 return (
                   <OrderItem
+                    key={crypto.randomUUID()}
                     productId={orderInfo.order_items[index]}
                     quantity={orderInfo.order_quantity[index]}
                   />
