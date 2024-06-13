@@ -68,7 +68,10 @@ export default function Products() {
             })}
         </ul>
       </ProductsGrid>
-      <Pagination onHandlePageChange={handlePageChange} max={9} />
+      <Pagination
+        onHandlePageChange={handlePageChange}
+        max={Math.ceil(data?.count / 15)}
+      />
     </ProductsContainer>
   );
 }

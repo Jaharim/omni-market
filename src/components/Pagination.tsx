@@ -15,7 +15,7 @@ export default function Pagination({
   const [page, setPage] = useState(1);
   const [pageArr, setPageArr] = useState<number[][]>([]);
   const [pageArrNum, setPageArrNum] = useState(0);
-  const maxPage = Math.ceil(max);
+  const maxPage = max;
 
   useEffect(() => {
     const getPageArr = async () => {
