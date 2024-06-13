@@ -48,6 +48,7 @@ PW: 1q2w3e4r!
   | React.js |모듈화된 UI 컴포넌트를 만들고, 데이터와 상태를 효율적으로 관리하여 코드의 재사용성과 유지보수성을 향상시키기 위해 선택했습니다.|
   | React-Query v5 |데이터 요청 및 캐싱, 상태 관리를 효율적으로 처리하고, 비동기 데이터 로딩 및 오류 처리를 간소화하여 사용자 경험을 향상시킬 수 있는 장점이 있어 선택했습니다.|
   | TypeScript |타입 에러를 사전에 방지하여 코드의 안정성을 높이기 위해 선택했습니다.|
+  |React-Hook-Form, Zod|간편한 폼 관리와 타입 안전성과 강력한 스키마 기반 유효성 검사 구현을 위해 선택했습니다.|
 
 <br />
 
@@ -201,6 +202,11 @@ PW: 1q2w3e4r!
     |-|-|
     |![장바구니 전체 주문하기를 눌렀을 때](https://github.com/Jaharim/omni-market/assets/83650872/e005d3ce-473d-42b9-8206-ea17e010ca96)|![바로구매 버튼을 눌렀을 때](https://github.com/Jaharim/omni-market/assets/83650872/a88873d4-460c-497c-b1cd-d1f5f578c903)|
 
+    <br />
+
+    #### 장바구니 삼품을 삭제, 수량 변경 및 선택 시 결제 금액 상세 변화
+    https://github.com/Jaharim/omni-market/assets/83650872/2fc6059e-aec6-4195-a5f7-7a3b6b3998b9
+    
 <br />
 
 - 주문/결제 페이지
@@ -276,6 +282,10 @@ PW: 1q2w3e4r!
     |-|-|
     |![상품 등록 초기 화면](https://github.com/Jaharim/omni-market/assets/83650872/ba6411ee-24de-498f-9cac-4b8d2bb48b52)|![상품 정보 입력](https://github.com/Jaharim/omni-market/assets/83650872/33833d7d-8a83-4f67-b5c9-26e9d4798612)|
 
+    #### 상품 등록 영상
+    https://github.com/Jaharim/omni-market/assets/83650872/f43f5286-a89c-485f-915a-dd07697e11d8
+    
+
   <br />
   
   - 상품 수정
@@ -284,6 +294,9 @@ PW: 1q2w3e4r!
     |-|-|-|-|
     |![수정 전](https://github.com/Jaharim/omni-market/assets/83650872/f020e285-707e-4cec-a7b0-80b7a4bb17c5)|![초기 화면](https://github.com/Jaharim/omni-market/assets/83650872/97832234-09e8-4901-abd3-a258db525c82)|![상품 정보 수정](https://github.com/Jaharim/omni-market/assets/83650872/8e2c4698-5d0e-47fa-9210-a37ef2379e97)|![수정 후](https://github.com/Jaharim/omni-market/assets/83650872/7177b757-2add-4687-85f3-4d13559f06a4)|
 
+    #### 상품 수정 영상
+    https://github.com/Jaharim/omni-market/assets/83650872/ca287cc7-5086-44bd-a514-a26d487e0838
+    
   <br />
 
   - 상품 삭제
@@ -292,6 +305,10 @@ PW: 1q2w3e4r!
     |-|-|-|-|
     |![삭제 전](https://github.com/Jaharim/omni-market/assets/83650872/e2a4914c-b5d7-43c0-bc0a-941046a46d80)|![삭제 확인](https://github.com/Jaharim/omni-market/assets/83650872/95a5b1c7-5310-41e3-a970-c827286ed0f2)|![삭제 완료](https://github.com/Jaharim/omni-market/assets/83650872/0d95479e-8b37-412e-a96b-a8a9c73797ad)|![삭제 후](https://github.com/Jaharim/omni-market/assets/83650872/6fefe229-5bf9-4f3a-810a-bc7c45b91697)|
     
+    #### 상품 삭제 영상
+    https://github.com/Jaharim/omni-market/assets/83650872/56ccf90d-9aae-4646-84e6-4ad33adca9db
+    
+
 <br />
 
 <!-- Top Button -->
