@@ -23,6 +23,9 @@ export default function ProductDetail() {
 
   const [token, setToken] = useState('');
 
+  const [linkToLoginPageModalState, setLinkToLoginPageModalState] =
+    useState(false);
+
   const [
     addProductToCartSuccessModalOpen,
     setAddProductToCartSuccessModalOpen,
@@ -119,22 +122,35 @@ export default function ProductDetail() {
   ////console.log(data, token);
 
   const handleAddProductToCart = () => {
-    addProductToCartMutation.mutate();
+    if (loginType === 'SELLER' || !token) {
+      setLinkToLoginPageModalState(true);
+    } else {
+      addProductToCartMutation.mutate();
+    }
   };
   const handleDirectOrderProduct = () => {
-    navigation('/omni-market/order', {
-      state: [
-        'direct_order',
-        [
+    if (loginType === 'SELLER' || !token) {
+      setLinkToLoginPageModalState(true);
+    } else {
+      navigation('/omni-market/order', {
+        state: [
+          'direct_order',
           [
-            data.product_id,
-            inputState * parseInt(data.price),
-            parseInt(data.shipping_fee),
+            [
+              data.product_id,
+              inputState * parseInt(data.price),
+              parseInt(data.shipping_fee),
+            ],
           ],
+          inputState,
         ],
-        inputState,
-      ],
-    });
+      });
+    }
+  };
+
+  const handleLinkToLoginPageModalClose = () => {
+    setLinkToLoginPageModalState(false);
+    navigation('/omni-market/login');
   };
   //const handleFailModalClose = () => {};
 
@@ -176,7 +192,7 @@ export default function ProductDetail() {
                   <button
                     type='button'
                     disabled={
-                      inputState <= 1 || loginType === 'SELLER' || !token
+                      inputState <= 1 /* || loginType === 'SELLER' || !token */
                     }
                     onClick={() => handleInputButton('minus')}
                   >
@@ -187,14 +203,13 @@ export default function ProductDetail() {
                     value={inputState}
                     onChange={(e) => handleInputChange(e, data.stock)}
                     onWheel={handleInputScroll}
-                    disabled={loginType === 'SELLER' || !token}
+                    /* disabled={loginType === 'SELLER' || !token} */
                   />
                   <button
                     type='button'
                     disabled={
-                      inputState >= data.stock ||
-                      loginType === 'SELLER' ||
-                      !token
+                      inputState >=
+                      data.stock /* || loginType === 'SELLER' || !token */
                     }
                     onClick={() => handleInputButton('plus')}
                   >
@@ -225,14 +240,14 @@ export default function ProductDetail() {
                 >
                   <button
                     type='button'
-                    disabled={loginType === 'SELLER' || !token}
+                    /* disabled={loginType === 'SELLER' || !token} */
                     onClick={handleDirectOrderProduct}
                   >
                     바로 구매
                   </button>
                   <button
                     type='button'
-                    disabled={loginType === 'SELLER' || !token}
+                    /* disabled={loginType === 'SELLER' || !token} */
                     onClick={handleAddProductToCart}
                   >
                     장바구니
@@ -276,12 +291,73 @@ export default function ProductDetail() {
                 </div>
               </FailModalBackDrop>
             )}
+            {linkToLoginPageModalState && (
+              <LinkToLoginPageBackDrop
+                onClick={handleLinkToLoginPageModalClose}
+              >
+                <div>
+                  <span>구매회원으로 로그인 후 이용해주세요</span>
+                  <button
+                    type='button'
+                    onClick={handleLinkToLoginPageModalClose}
+                  >
+                    확인
+                  </button>
+                </div>
+              </LinkToLoginPageBackDrop>
+            )}
           </ProductDetailWrapper>
         </ProductDetailContainer>
       )}
     </>
   );
 }
+
+const LinkToLoginPageBackDrop = styled.div`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 550px;
+    height: 250px;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 2000;
+    gap: 40px;
+
+    & > span {
+      font-size: 20px;
+      font-weight: bold;
+      //margin-bottom: 35px;
+    }
+
+    & > button {
+      width: 120px;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #767676;
+      cursor: pointer;
+    }
+  }
+`;
 
 const FailModalBackDrop = styled.div`
   display: flex;
@@ -423,7 +499,8 @@ const ProductQuantityContainer = styled.div<{ $styleProps: boolean }>`
     height: 50px;
     border: 1px solid #c4c4c4;
     background-color: unset;
-    cursor: ${(props) => (props.$styleProps ? 'normal' : 'pointer')};
+    cursor: pointer;
+    //cursor: ${(props) => (props.$styleProps ? 'normal' : 'pointer')};
 
     &:nth-child(1) {
       border-radius: 5px 0 0 5px;
@@ -513,16 +590,17 @@ const OrderButtonsContainer = styled.div<{ $styleProps: boolean }>`
     color: white;
     border-radius: 5px;
     border: none;
-    cursor: ${(props) => (props.$styleProps ? 'normal' : 'pointer')};
+    cursor: pointer;
+    //cursor: ${(props) => (props.$styleProps ? 'normal' : 'pointer')};
 
     &:nth-child(1) {
-      background-color: ${(props) =>
-        props.$styleProps ? '#C4C4C4' : '#21bf48'};
+      background-color: #21bf48;
+      //${(props) => (props.$styleProps ? '#C4C4C4' : '#21bf48')};
     }
 
     &:nth-child(2) {
-      background-color: ${(props) =>
-        props.$styleProps ? '#C4C4C4' : '#767676'};
+      background-color: #767676;
+      //${(props) => (props.$styleProps ? '#C4C4C4' : '#767676')};
     }
   }
 `;
