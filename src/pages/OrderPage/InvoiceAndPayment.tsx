@@ -489,7 +489,8 @@ const SubmitButton = styled.button<{ $validProps: boolean }>`
   font-size: 24px;
   font-weight: bold;
   color: #fff;
-  cursor: ${(props) => (props.$validProps ? 'pointer' : 'normal')};
+  cursor: pointer;
+  // ${(props) => (props.$validProps ? 'pointer' : 'normal')};
 `;
 
 const PaymentContainer = styled.div`
