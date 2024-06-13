@@ -48,6 +48,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(loginFormSchema) });
 
@@ -128,7 +129,10 @@ export default function Login() {
         <LoginTypeButton
           type='button'
           className={loginType === 'BUYER' ? 'selected' : ''}
-          onClick={() => setLoginType('BUYER')}
+          onClick={() => {
+            setLoginType('BUYER');
+            setValue('id', 'buyersonny');
+          }}
           selected={loginType}
         >
           구매회원 로그인
@@ -136,7 +140,10 @@ export default function Login() {
         <LoginTypeButton
           type='button'
           className={loginType === 'SELLER' ? 'selected' : ''}
-          onClick={() => setLoginType('SELLER')}
+          onClick={() => {
+            setLoginType('SELLER');
+            setValue('id', 'sellersonny');
+          }}
           selected={loginType}
         >
           판매회원 로그인
@@ -146,11 +153,21 @@ export default function Login() {
       <UserInfoInputForm onSubmit={onSubmit}>
         <div>
           <label htmlFor='userId'>아이디</label>
-          <input type='text' id='userId' {...register('id')} />
+          <input
+            type='text'
+            id='userId'
+            {...register('id')}
+            defaultValue={'buyersonny'}
+          />
         </div>
         <div>
           <label htmlFor='userPassword'>비밀번호</label>
-          <input type='password' id='userPassword' {...register('password')} />
+          <input
+            type='password'
+            id='userPassword'
+            {...register('password')}
+            defaultValue={'1q2w3e4r!'}
+          />
         </div>
         {error ? (
           <span>아이디 또는 비밀번호가 일치하지 않습니다.</span>
