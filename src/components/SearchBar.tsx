@@ -31,7 +31,7 @@ export default function SearchBar() {
         placeholder='상품의 이름을 검색하세요'
         {...register('searchedInput')}
       />
-      <button type='button'>
+      <button type='submit'>
         <img src={searchIcon} alt='상품검색버튼' />
       </button>
     </SearchForm>
